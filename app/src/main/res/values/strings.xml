@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">CuratorsTTIT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="groups">
+        <item>381</item>
+        <item>382</item>
+        <item>483</item>
+        <item>481</item>
+        <item>682</item>
+        <item>684</item>
+    </string-array>
 </resources>
