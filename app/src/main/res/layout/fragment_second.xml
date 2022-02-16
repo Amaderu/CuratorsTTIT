@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSecondary"
-    tools:context=".MainFragment">
+    tools:context=".SecondFragment"
+    android:id="@+id/fragment_second"
+    android:background="?colorPrimary">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment"
-        android:textColor="@color/yellow"
-        android:textSize="40sp" />
+        android:textSize="30sp"
+        android:textColor="?colorOnSecondary"
+        />
 
 </FrameLayout>
