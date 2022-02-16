@@ -56,4 +56,9 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
     implementation 'com.android.support:support-v4:' + rootProject.supportLibVersion
     /*--------------------------*/
+
+    //MS excel
+    implementation "com.github.SUPERCILEX.poi-android:poi:$rootProject.poiVersion"
+    compileOnly "org.apache.poi:poi-ooxml:$rootProject.poiVersion"
+    /*---------------------------*/
 }

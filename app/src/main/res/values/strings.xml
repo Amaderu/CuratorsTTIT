@@ -2,6 +2,7 @@
     <string name="app_name">CuratorsTTIT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="group">Группа</string>
 
     <string-array name="groups">
         <item>381</item>
@@ -10,5 +11,28 @@
         <item>481</item>
         <item>682</item>
         <item>684</item>
+    </string-array>
+
+    <string-array name="names">
+        <item>Егоров Степан Богданович</item>
+        <item>Гришин Фёдор Ярославович</item>
+        <item>Коновалов Михаил Львович</item>
+        <item>Ковалева Полина Мироновна</item>
+        <item>Чеснокова Анастасия Николаевна</item>
+        <item>Семенова Ульяна Никитична</item>
+        <item>Булгакова Марина Артёмовна</item>
+        <item>Антонова Анна Святославовна</item>
+        <item>Федоров Никита Кириллович</item>
+        <item>Колесникова Валерия Матвеевна</item>
+        <item>Новикова Полина Ильинична</item>
+        <item>Михайлов Александр Антонович</item>
+        <item>Баженова Софья Васильевна</item>
+        <item>Коровин Даниил Фёдорович</item>
+        <item>Петрова Вера Владиславовна</item>
+        <item>Орлов Глеб Фёдорович</item>
+        <item>Царев Максим Романович</item>
+        <item>Захаров Игорь Артёмович</item>
+        <item>Павлова Ольга Александровна</item>
+        <item>Грачева Екатерина Матвеевна</item>
     </string-array>
 </resources>

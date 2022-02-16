@@ -36,18 +36,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Группа"
+                android:text="@string/group"
                 android:textAllCaps="false"
-                android:textSize="15sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="19sp" />
 
             <Spinner
                 android:id="@+id/spinner_groups"
                 style="@style/Spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:background="@drawable/spinn_bacg"/>
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/spinn_bacg"
+                android:spinnerMode="dropdown" />
 
         </LinearLayout>
 

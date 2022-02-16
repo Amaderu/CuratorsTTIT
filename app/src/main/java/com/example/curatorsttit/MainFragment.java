@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +29,7 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         // Required empty public constructor
     }
-
+    ListView namesList;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -54,6 +56,16 @@ public class MainFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        if(namesList==null)
+            return;
+        // получаем ресурс
+        String[] names = getResources().getStringArray(R.array.names);
+        // создаем адаптер
+        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1, names);
+        // устанавливаем для списка адаптер
+        namesList.setAdapter(adapter);
+
     }
 
     @Override
@@ -67,6 +79,7 @@ public class MainFragment extends Fragment {
         adapter.setDropDownViewResource(R.layout.cus_drop_spinn);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);*/
+        namesList = view.findViewById(R.id.lvMain);
         return view;
     }
 }
