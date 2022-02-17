@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,13 +19,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import com.example.curatorsttit.adapters.OnSlideAdapter;
 
 import java.text.NumberFormat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     ActionBar actionBar;
     Toolbar toolbar;
+    ViewPager viewPager;
+    LinearLayout dots;
+    OnSlideAdapter slideAdapter;
+
+
     public static int CURRENT_FRAGMENT;
     public static int LAST_FRAGMENT;
     private SharedPreferences prefs;
@@ -44,7 +55,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //actionBar.setLogo(R.drawable.ic_bird);
         //actionBar.setTitle("Dev2Qa.com");
         findViewById(R.id.button).setOnClickListener(this);
+        viewPager = findViewById(R.id.slider);
+        slideAdapter = new OnSlideAdapter(this);
+        /*viewPager.setAdapter(new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return 0;
+            }
 
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return false;
+            }
+        });
+        viewPager.setCurrentItem(1,false);*/
+        viewPager.setAdapter(slideAdapter);
 
     }
     @SuppressLint("NonConstantResourceId")
@@ -71,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         loadFragment(fragment);
         //whichFragment(R.id.fragment_second);
-        NumberFormat.getInstance().format(123121L);
+        //NumberFormat.getInstance().format(123121L);
     }
 
     // Метод для создания фрагмента по его id
