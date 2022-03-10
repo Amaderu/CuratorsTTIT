@@ -8,4 +8,15 @@
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:entries">@array/groups</item>
     </style>
+    <style name="TextView" parent="Widget.MaterialComponents.TextView">
+        <!--<item name="android:fontFamily">@font/inter_val</item>-->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?android:textColor</item>
+    </style>
+
+    <style name="TextView.WrapContent22sp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">22sp</item>
+    </style>
 </resources>

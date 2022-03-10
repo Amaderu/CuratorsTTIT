@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ReactiveGuide;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -72,13 +74,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //actionBar.setLogo(R.drawable.ic_bird);
         //actionBar.setTitle("Dev2Qa.com");
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar,null));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        findViewById(R.id.button).setOnClickListener(this);
-        viewPager = findViewById(R.id.slider);
+
+        //findViewById(R.id.button).setOnClickListener(this);
+        //viewPager = findViewById(R.id.slider);
+        BottomNavigationView navbar = findViewById(R.id.nav_bar);
+
+        // Создаем и устанавливаем слушатель событий на навбар
+        navbar.setOnItemSelectedListener(item -> {
+            // Загружаем нужный фрагмент
+            loadFragment(whichFragment(item.getItemId()));
+            return true;
+        });
         slideAdapter = new OnSlideAdapter(this);
         /*viewPager.setAdapter(new PagerAdapter() {
             @Override
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         viewPager.setCurrentItem(1,false);*/
-        viewPager.setAdapter(slideAdapter);
+        //viewPager.setAdapter(slideAdapter);
 
     }
     @SuppressLint("NonConstantResourceId")
@@ -124,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
     public void show(View view){
         View view2 = view.getRootView();
         view2.findViewById(R.id.studentSNP);
@@ -135,9 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("NonConstantResourceId")
     private Fragment whichFragment(int id) {
         switch (id) {
-            case R.id.fragment_main:
-                CURRENT_FRAGMENT = R.id.fragment_main;
-                return new MainFragment();
+            case R.id.nav_stud:
+                CURRENT_FRAGMENT = R.id.fragment_student_info;
+                return new StudentInfoFragment();
             case R.id.fragment_second:
                 CURRENT_FRAGMENT = R.id.fragment_second;
                 return new SecondFragment();
@@ -150,9 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+        //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         transaction.replace(R.id.mainFrame, fragment);
-        transaction.addToBackStack(null);
+        //transaction.addToBackStack(null);
         transaction.commit();
     }
 }

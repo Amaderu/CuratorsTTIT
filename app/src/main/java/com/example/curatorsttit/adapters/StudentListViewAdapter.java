@@ -28,10 +28,15 @@ public class StudentListViewAdapter extends BaseAdapter {
         this.arraylist = new ArrayList<String>();
         this.arraylist.addAll(StudentsList);
     }
+    public void setGroupVisability(int visability) {
+        this.groupVisability = visability;
+    }
 
     public class ViewHolder {
         TextView name;
+        TextView group;
     }
+    private int groupVisability = View.GONE;
 
     @Override
     public int getCount() {
@@ -52,16 +57,20 @@ public class StudentListViewAdapter extends BaseAdapter {
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
-            view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-            //view = inflater.inflate(R.layout.listview_item, null);
+            //view = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            view = inflater.inflate(R.layout.simple_list_item, null);
             // Locate the TextViews in listview_item.xml
-            holder.name = (TextView) view.findViewById(android.R.id.text1);
+            //holder.name = (TextView) view.findViewById(android.R.id.text1);
+            holder.name = (TextView) view.findViewById(R.id.studentFIO);
+            holder.group = (TextView) view.findViewById(R.id.studentGroup);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
         holder.name.setText(StudentsList.get(position).toString());
+        holder.group.setText("89");
+        holder.group.setVisibility(groupVisability);
         return view;
     }
 
@@ -78,7 +87,7 @@ public class StudentListViewAdapter extends BaseAdapter {
                 }
             }
         }
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
 }

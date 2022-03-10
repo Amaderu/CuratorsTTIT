@@ -1,11 +1,19 @@
 package com.example.curatorsttit;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -19,55 +27,26 @@ import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public MainFragment() {
         // Required empty public constructor
     }
+
     ListView namesList;
     StudentListViewAdapter adapter;
     SearchView editsearch;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment mainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    SwipeRefreshLayout refreshLayout;
+    Toolbar toolbar;
+    SearchView.OnQueryTextListener queryTextListener;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        setHasOptionsMenu(true);
 
-        if(namesList==null)
+
+        /*if(namesList==null)
             return;
         // получаем ресурс
         String[] names = getResources().getStringArray(R.array.names);
@@ -75,10 +54,7 @@ public class MainFragment extends Fragment {
         ArrayAdapter<String> adapter1 = new ArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1, names);
         // устанавливаем для списка адаптер
-        namesList.setAdapter(adapter1);
-
-
-
+        namesList.setAdapter(adapter1);*/
 
 
     }
@@ -86,10 +62,37 @@ public class MainFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        refreshLayout = getView().findViewById(R.id.refresh);
+        refreshLayout.setOnRefreshListener(() -> doYourUpdate());
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.getMenu().clear();
-        toolbar.removeViewAt(0);
-        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar,null));
+        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
+        toolbar.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.dashboard, menu);
+
+                MenuItem searchItem = menu.findItem(R.id.action_search);
+
+                SearchManager searchManager = (SearchManager) getActivity().getBaseContext().getSystemService(Context.SEARCH_SERVICE);
+
+                SearchView searchView = null;
+                if (searchItem != null) {
+                    searchView = (SearchView) searchItem.getActionView();
+                }
+                if (searchView != null) {
+                    searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+                }
+                searchView.setQueryHint("Найти студента...");
+                searchView.setOnQueryTextListener(queryTextListener);
+                searchView.setIconifiedByDefault(false);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -110,9 +113,10 @@ public class MainFragment extends Fragment {
             listStudents.add(wp);
         }
         adapter = new StudentListViewAdapter(getContext(), listStudents);
-        editsearch = (SearchView) view.findViewById(R.id.simpleSearchView);
+
+        //editsearch = (SearchView) view.findViewById(R.id.simpleSearchView);
         //editsearch = (SearchView) fragment.getView().findViewById(R.id.simpleSearchView);
-        editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
@@ -121,12 +125,31 @@ public class MainFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
                 String text = newText;
-                adapter.filter(text);
+                if (adapter != null)
+                    adapter.filter(text);
+                if (!newText.isEmpty()) {
+                    adapter.setGroupVisability(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    adapter.setGroupVisability(View.GONE);
+                    adapter.notifyDataSetChanged();
+                }
                 return false;
             }
-        });
+        };
         namesList.setAdapter(adapter);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
+        //setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         return view;
+    }
+
+
+    private void doYourUpdate() {
+        // TODO implement a refresh
+        refreshLayout.setRefreshing(false); // Disables the refresh icon
     }
 }
