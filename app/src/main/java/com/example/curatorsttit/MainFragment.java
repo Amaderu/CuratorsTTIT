@@ -2,13 +2,22 @@ package com.example.curatorsttit;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
+
+import com.example.curatorsttit.adapters.StudentListViewAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +39,8 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
     ListView namesList;
+    StudentListViewAdapter adapter;
+    SearchView editsearch;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -61,11 +72,24 @@ public class MainFragment extends Fragment {
         // получаем ресурс
         String[] names = getResources().getStringArray(R.array.names);
         // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(),
+        ArrayAdapter<String> adapter1 = new ArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1, names);
         // устанавливаем для списка адаптер
-        namesList.setAdapter(adapter);
+        namesList.setAdapter(adapter1);
 
+
+
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.getMenu().clear();
+        toolbar.removeViewAt(0);
+        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar,null));
     }
 
     @Override
@@ -80,6 +104,29 @@ public class MainFragment extends Fragment {
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);*/
         namesList = view.findViewById(R.id.lvMain);
+        List<String> listStudents = new ArrayList<>();
+        String[] students = getResources().getStringArray(R.array.names);
+        for (String wp : students) {
+            listStudents.add(wp);
+        }
+        adapter = new StudentListViewAdapter(getContext(), listStudents);
+        editsearch = (SearchView) view.findViewById(R.id.simpleSearchView);
+        //editsearch = (SearchView) fragment.getView().findViewById(R.id.simpleSearchView);
+        editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String text = newText;
+                adapter.filter(text);
+                return false;
+            }
+        });
+        namesList.setAdapter(adapter);
+
         return view;
     }
 }

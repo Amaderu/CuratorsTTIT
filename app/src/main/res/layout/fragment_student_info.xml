@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_student_info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".listeners.StudentInfoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:contentDescription="Общая информация"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Общая информация▼"
+            android:onClick="show"/>
+        <RelativeLayout
+            android:id="@+id/expandable"
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ФИО:" />
+
+            <EditText
+                android:id="@+id/studentSNP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView2"
+                android:enabled="false"
+                android:hint="ФИО"
+                android:inputType="none" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentSNP"
+                android:text="Дата рождения:" />
+
+            <EditText
+                android:id="@+id/studentBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView3"
+                android:enabled="false"
+                android:maxLength="10"
+                android:hint="01/01/1990"
+                android:inputType="date"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_below="@id/studentSNP"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Полных лет:" />
+            <EditText
+                android:id="@+id/studentYears"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="20"
+                android:layout_below="@id/textView3"
+                android:layout_alignStart="@id/textView4"
+                android:inputType="none"
+                android:enabled="false"
+                />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</FrameLayout>

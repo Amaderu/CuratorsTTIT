@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSecondary"
+    android:background="?attr/colorOnSecondary"
     tools:context=".MainFragment">
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Список студентов"
         android:gravity="top|center_horizontal"
         android:textColor="@color/yellow"
-        android:textSize="40sp" />
+        android:textSize="40sp" />-->
+    <SearchView
+        android:id="@+id/simpleSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Поиск студента"/>
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/products_search_box"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Поиск студента"/>
+
+        <ImageButton
+            android:id="@+id/products_search_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="Поиск студента"
+            app:srcCompat="@drawable/ic_search"/>
+
+    </LinearLayout>-->
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 

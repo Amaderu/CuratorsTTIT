@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ReactiveGuide;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,15 +17,27 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.curatorsttit.adapters.OnSlideAdapter;
+import com.example.curatorsttit.adapters.StudentListViewAdapter;
+import com.example.curatorsttit.listeners.StudentInfoFragment;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     ActionBar actionBar;
@@ -32,11 +45,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ViewPager viewPager;
     LinearLayout dots;
     OnSlideAdapter slideAdapter;
+    Fragment fragment;
 
-
+    SearchView editsearch;
+    StudentListViewAdapter adapter;
     public static int CURRENT_FRAGMENT;
     public static int LAST_FRAGMENT;
     private SharedPreferences prefs;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +66,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Set below attributes to add logo in ActionBar.
         //actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setTitle("");
-        //toolbar = (Toolbar) Toolbar.inflate(getApplicationContext(),R.layout.toolbar,findViewById(R.id.mainActivity));
-        //setSupportActionBar(toolbar);
+        //toolbar = (Toolbar) Toolbar.inflate(getApplicationContext(),R.layout.toolbar,findViewById(R.id.toolbar));
+
         //actionBar.setDisplayUseLogoEnabled(true);
         //actionBar.setLogo(R.drawable.ic_bird);
         //actionBar.setTitle("Dev2Qa.com");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar,null));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
         findViewById(R.id.button).setOnClickListener(this);
         viewPager = findViewById(R.id.slider);
         slideAdapter = new OnSlideAdapter(this);
@@ -81,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //if(CURRENT_FRAGMENT == LAST_FRAGMENT)
             switch (CURRENT_FRAGMENT) {
-                case R.id.fragment_second:
+                case R.id.fragment_student_info:
                     CURRENT_FRAGMENT = R.id.fragment_main;
                     fragment =  new MainFragment();
                     break;
                 case R.id.fragment_main:
-                    CURRENT_FRAGMENT = R.id.fragment_second;
-                    fragment = new SecondFragment();
+                    CURRENT_FRAGMENT = R.id.fragment_student_info;
+                    fragment = new StudentInfoFragment();
                     break;
                 default:
                     CURRENT_FRAGMENT = R.id.fragment_main;
@@ -99,6 +122,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //NumberFormat.getInstance().format(123121L);
     }
 
+
+
+    public void show(View view){
+        View view2 = view.getRootView();
+        view2.findViewById(R.id.studentSNP);
+        RelativeLayout layout = (RelativeLayout)view2.findViewById(R.id.expandable);
+        layout.setVisibility(layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        Toast.makeText(this, "Show more", Toast.LENGTH_SHORT).show();
+    }
     // Метод для создания фрагмента по его id
     @SuppressLint("NonConstantResourceId")
     private Fragment whichFragment(int id) {
