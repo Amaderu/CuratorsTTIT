@@ -7,6 +7,10 @@
     <string name="cancle">Отменить</string>
     <string name="apply">Применить</string>
 
+    <string name="INofILA">Снилс:</string>
+    <string name="ITN">ИНН:</string>
+    <string name="IMPN">Полис:</string>
+
     <string-array name="groups">
         <item>381</item>
         <item>382</item>

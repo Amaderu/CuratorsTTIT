@@ -1,5 +1,6 @@
 package com.example.curatorsttit;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -44,19 +45,7 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-
-        /*if(namesList==null)
-            return;
-        // получаем ресурс
-        String[] names = getResources().getStringArray(R.array.names);
-        // создаем адаптер
-        ArrayAdapter<String> adapter1 = new ArrayAdapter(getContext(),
-                android.R.layout.simple_list_item_1, names);
-        // устанавливаем для списка адаптер
-        namesList.setAdapter(adapter1);*/
-
-
+        //getActivity().getActionBar();
     }
 
     @Override
@@ -64,35 +53,14 @@ public class MainFragment extends Fragment {
         super.onStart();
         refreshLayout = getView().findViewById(R.id.refresh);
         refreshLayout.setOnRefreshListener(() -> doYourUpdate());
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.getMenu().clear();
-        toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
-        toolbar.addMenuProvider(new MenuProvider() {
-            @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.dashboard, menu);
+        //Toolbar toolbar;
+        //toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //ActionBar bar = (ActionBar) getActivity().getActionBar();
+        //bar.setDisplayShowTitleEnabled(false)
+        //toolbar.getMenu().removeItem(0);
+        //.removeViewAt(0);
+        //toolbar.(getLayoutInflater().inflate(R.layout.toolbar, null));
 
-                MenuItem searchItem = menu.findItem(R.id.action_search);
-
-                SearchManager searchManager = (SearchManager) getActivity().getBaseContext().getSystemService(Context.SEARCH_SERVICE);
-
-                SearchView searchView = null;
-                if (searchItem != null) {
-                    searchView = (SearchView) searchItem.getActionView();
-                }
-                if (searchView != null) {
-                    searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-                }
-                searchView.setQueryHint("Найти студента...");
-                searchView.setOnQueryTextListener(queryTextListener);
-                searchView.setIconifiedByDefault(false);
-            }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                return false;
-            }
-        });
     }
 
     @Override
@@ -141,6 +109,32 @@ public class MainFragment extends Fragment {
         namesList.setAdapter(adapter);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
+        toolbar.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.dashboard, menu);
+
+                MenuItem searchItem = menu.findItem(R.id.action_search);
+
+                SearchManager searchManager = (SearchManager) getActivity().getBaseContext().getSystemService(Context.SEARCH_SERVICE);
+
+                SearchView searchView = null;
+                if (searchItem != null) {
+                    searchView = (SearchView) searchItem.getActionView();
+                }
+                if (searchView != null) {
+                    searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+                }
+                searchView.setQueryHint("Найти студента...");
+                searchView.setOnQueryTextListener(queryTextListener);
+                searchView.setIconifiedByDefault(false);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                return false;
+            }
+        });
         //setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 

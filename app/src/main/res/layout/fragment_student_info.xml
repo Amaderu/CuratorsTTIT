@@ -9,7 +9,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <TextView
+            android:id="@+id/commonInf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorOnSecondary"
@@ -48,7 +49,7 @@
             android:layout_marginTop="35dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textView2"
@@ -106,6 +107,122 @@
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Общая информация"
+        app:cardCornerRadius="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card1">
+        <TextView
+            android:id="@+id/medInf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorOnSecondary"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="Мед. данные▼"
+            android:onClick="show"
+            android:textColor="@color/black" />
+        <RelativeLayout
+            android:id="@+id/expandable2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvINOILA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/INofILA" />
+
+            <EditText
+                android:id="@+id/studentINOILA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvINOILA"
+                android:enabled="false"
+                android:hint="@string/INofILA"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/tvITN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/ITN" />
+
+            <EditText
+                android:id="@+id/studentITN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvINOILA"
+                android:enabled="false"
+                android:layout_alignParentEnd="true"
+
+                android:hint="@string/ITN"
+                android:inputType="date"
+                android:maxLength="10"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/IMPN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentITN"
+                android:text="@string/IMPN" />
+
+            <TextView
+                android:id="@+id/seria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IMPN"
+                android:paddingVertical="10dp"
+                android:text="Серия" />
+
+            <EditText
+                android:id="@+id/studentIMPNSSeria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IMPN"
+                android:layout_toRightOf="@id/seria"
+                android:enabled="false"
+                android:hint="20"
+                android:inputType="numberDecimal"
+                android:maxLength="2" />
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IMPN"
+                android:layout_toEndOf="@id/studentIMPNSSeria"
+                android:paddingVertical="10dp"
+                android:text="Номер" />
+
+            <EditText
+                android:id="@+id/studentIMPNSNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IMPN"
+                android:layout_toRightOf="@id/number"
+                android:enabled="false"
+                android:hint="01189496421"
+                android:inputType="numberDecimal"
+                android:maxLength="2" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

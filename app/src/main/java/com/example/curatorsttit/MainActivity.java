@@ -18,6 +18,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -134,10 +136,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void show(View view){
         View view2 = view.getRootView();
-        view2.findViewById(R.id.studentSNP);
-        RelativeLayout layout = (RelativeLayout)view2.findViewById(R.id.expandable);
-        layout.setVisibility(layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-        Toast.makeText(this, "Show more", Toast.LENGTH_SHORT).show();
+        //view2 = view2.findViewById(view.getId());
+        RelativeLayout layout = null;
+        switch (view.getId()){
+            case R.id.commonInf:
+                layout = (RelativeLayout)view2.findViewById(R.id.expandable);
+                break;
+            case R.id.medInf:
+                layout = (RelativeLayout)view2.findViewById(R.id.expandable2);
+                break;
+            default:{
+                //TODO Nothing
+            }
+            break;
+        }
+        if(layout != null){
+            TransitionManager.beginDelayedTransition(layout, new AutoTransition());
+            layout.setVisibility(layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+        }
+        //Toast.makeText(this, "Show more", Toast.LENGTH_SHORT).show();
     }
     // Метод для создания фрагмента по его id
     @SuppressLint("NonConstantResourceId")
@@ -158,9 +175,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+        //if(getSupportFragmentManager().findFragmentByTag("StudentInfoFragment") == null)
         transaction.replace(R.id.mainFrame, fragment);
-        //transaction.addToBackStack(null);
+        if(CURRENT_FRAGMENT == R.id.fragment_student_info)
+            transaction.addToBackStack("StudentInfoFragment");
         transaction.commit();
     }
 }

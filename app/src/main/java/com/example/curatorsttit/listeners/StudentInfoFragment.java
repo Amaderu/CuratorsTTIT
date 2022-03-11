@@ -16,13 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
@@ -31,11 +33,11 @@ import javax.xml.stream.events.Attribute;
 
 public class StudentInfoFragment extends Fragment {
 
-    android.widget.Toolbar toolbar;
+    Toolbar toolbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class StudentInfoFragment extends Fragment {
 
         //setSupportActionBar(toolbar);
 
-        toolbar = (android.widget.Toolbar) getView().findViewById(R.id.toolbar);//.findViewById(R.id.toolbar);
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);//.findViewById(R.id.toolbar);
 
         /*LinearLayout linLayout = new LinearLayout(getActivity().getBaseContext());
         linLayout.setOrientation(LinearLayout.VERTICAL);
@@ -60,11 +62,29 @@ public class StudentInfoFragment extends Fragment {
         //bundle
         //toolbar.removeViewAt(0);
         //toolbar.addView(textView,linLayoutParam);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        //toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case android.R.id.home:
+                        getActivity().onBackPressed();
+                        break;
+                    case -1:
+                        getActivity().onBackPressed();
+                        break;
+                    case android.R.id.accessibilitySystemActionBack:
+                        getActivity().onBackPressed();
+                        break;
 
-        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+                    default: break;
+                }
+            }
+        });
         //toolbar.setNavigationOnClickListener(view -> getActivity().onBackPressed());
 
-        /*toolbar.addMenuProvider(new MenuProvider() {
+        toolbar.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 menu.clear();
@@ -99,17 +119,19 @@ public class StudentInfoFragment extends Fragment {
             public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
                 return false;
             }
-        });*/
+        });
         //toolbar.inflateMenu(R.menu.action_bar_edit);
         //ActionBar bar = getActivity().setActionBar(android.widget.Toolbar);
         //bar.setCustomView(toolbar);
-        ((MainActivity)getActivity()).setActionBar(toolbar);
-        ActionBar actionBar = ((MainActivity)getActivity()).getActionBar();
-
-        actionBar.setDisplayShowTitleEnabled(false);
-        setHasOptionsMenu(true);
+        //((MainActivity)getActivity()).setActionBar(toolbar);
+        //toolbar.animate().translationY(-toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
+        //toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+        //ActionBar actionBar = ((MainActivity)getActivity()).getActionBar();
+        //actionBar.
+        //actionBar.setDisplayShowTitleEnabled(false);
     }
 
+    /*Не работает в фрагменте
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         menu.clear();
@@ -140,7 +162,7 @@ public class StudentInfoFragment extends Fragment {
         });
         super.onCreateOptionsMenu(menu, menuInflater);
     }
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

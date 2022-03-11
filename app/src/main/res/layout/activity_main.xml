@@ -20,8 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:navigationBarColor"
+        android:background="?colorPrimary"
         app:itemHorizontalTranslationEnabled="true"
+        android:layout_gravity="bottom"
         app:itemIconTint="?colorOnSecondary"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/navigation_bar" />
