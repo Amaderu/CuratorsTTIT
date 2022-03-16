@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:drawable="@color/black"></item>
+    <item
+        android:width="250dp"
+        android:height="250dp"
+        android:bottom="250dp"
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:gravity="center" />
+    <!--<item
+        android:id="@+id/progress"
+        android:width="100dp"
+        android:height="100dp"
+        android:bottom="10dp"
+        android:drawable="@drawable/ic_progress"
+        android:visible="false"
+        android:gravity="center">
+        <animation-list>
+            <item android:duration="@integer/material_motion_duration_short_1" android:drawable="@anim/rotate"/>
+        </animation-list>
+    </item>-->
+</layer-list>
