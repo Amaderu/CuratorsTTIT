@@ -81,6 +81,7 @@ public class MainFragment extends Fragment {
             listStudents.add(wp);
         }
         adapter = new StudentListViewAdapter(getContext(), listStudents);
+        //TODO добавить прослушиватель нажатий на элемент
 
         //editsearch = (SearchView) view.findViewById(R.id.simpleSearchView);
         //editsearch = (SearchView) fragment.getView().findViewById(R.id.simpleSearchView);
@@ -143,7 +144,7 @@ public class MainFragment extends Fragment {
 
 
     private void doYourUpdate() {
-        // TODO implement a refresh
+        // TODO написать обновление данных
         refreshLayout.setRefreshing(false); // Disables the refresh icon
     }
 }

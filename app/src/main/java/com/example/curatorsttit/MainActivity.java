@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ReactiveGuide;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.security.crypto.EncryptedSharedPreferences;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -16,10 +17,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -35,15 +38,18 @@ import android.widget.Toast;
 
 import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
+import com.example.curatorsttit.databinding.ActivityMainBinding;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
+import com.example.curatorsttit.ui.login.LoginFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.prefs.Preferences;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ActionBar actionBar;
     Toolbar toolbar;
     ViewPager viewPager;
@@ -56,13 +62,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int CURRENT_FRAGMENT;
     public static int LAST_FRAGMENT;
     private SharedPreferences prefs;
+    ActivityMainBinding binding;
 
 
+    void login() {
+        prefs = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(getString(R.string.user_key), "user");
+        editor.apply();
+    }
+
+    void getUserfromPrefs() {
+        /*prefs = EncryptedSharedPreferences.create(
+                sharedPrefsFile,
+                mainKeyAlias,
+                getApplicationContext(),
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );*/
+        SharedPreferences.Editor sharedPrefsEditor = prefs.edit();
+        // Edit the user's shared preferences...
+        sharedPrefsEditor.apply();
+
+        String username = prefs.getString(getString(R.string.user_key), null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         // Get ActionBar
         //Activity.
@@ -71,115 +100,94 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setTitle("");
         //toolbar = (Toolbar) Toolbar.inflate(getApplicationContext(),R.layout.toolbar,findViewById(R.id.toolbar));
-
-        //actionBar.setDisplayUseLogoEnabled(true);
-        //actionBar.setLogo(R.drawable.ic_bird);
-        //actionBar.setTitle("Dev2Qa.com");
-
-
-
-        //findViewById(R.id.button).setOnClickListener(this);
-        //viewPager = findViewById(R.id.slider);
         BottomNavigationView navbar = findViewById(R.id.nav_bar);
-
+        loadFragment(new LoginFragment());
         // Создаем и устанавливаем слушатель событий на навбар
         navbar.setOnItemSelectedListener(item -> {
             // Загружаем нужный фрагмент
             loadFragment(whichFragment(item.getItemId()));
             return true;
         });
-        slideAdapter = new OnSlideAdapter(this);
-        /*viewPager.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
 
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return false;
-            }
-        });
-        viewPager.setCurrentItem(1,false);*/
-        //viewPager.setAdapter(slideAdapter);
 
     }
-    @SuppressLint("NonConstantResourceId")
+
     @Override
     public void onClick(View view) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         Fragment fragment;
         //SecondFragment fragment = new SecondFragment();
-
         //if(CURRENT_FRAGMENT == LAST_FRAGMENT)
-            switch (CURRENT_FRAGMENT) {
-                case R.id.fragment_student_info:
-                    CURRENT_FRAGMENT = R.id.fragment_main;
-                    fragment =  new MainFragment();
-                    break;
-                case R.id.fragment_main:
-                    CURRENT_FRAGMENT = R.id.fragment_student_info;
-                    fragment = new StudentInfoFragment();
-                    break;
-                default:
-                    CURRENT_FRAGMENT = R.id.fragment_main;
-                    fragment =  new MainFragment();
-                    break;
-            }
+        switch (CURRENT_FRAGMENT) {
+            case R.id.fragment_main:
+                CURRENT_FRAGMENT = R.id.fragment_main;
+                fragment = new MainFragment();
+                break;
+            case R.id.fragment_student_info:
+                CURRENT_FRAGMENT = R.id.fragment_student_info;
+                fragment = new StudentInfoFragment();
+                break;
+            default:
+                CURRENT_FRAGMENT = R.id.fragment_login;
+                fragment = new LoginFragment();
+                break;
+        }
         loadFragment(fragment);
         //whichFragment(R.id.fragment_second);
         //NumberFormat.getInstance().format(123121L);
     }
 
 
-
-
-    public void show(View view){
+    public void show(View view) {
         View view2 = view.getRootView();
         //view2 = view2.findViewById(view.getId());
         RelativeLayout layout = null;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.commonInf:
-                layout = (RelativeLayout)view2.findViewById(R.id.expandable);
+                layout = (RelativeLayout) view2.findViewById(R.id.expandable);
                 break;
             case R.id.medInf:
-                layout = (RelativeLayout)view2.findViewById(R.id.expandable2);
+                layout = (RelativeLayout) view2.findViewById(R.id.expandable2);
                 break;
-            default:{
-                //TODO Nothing
+            default: {
+                //TODO доделать для остальных блокоф инфы
             }
             break;
         }
-        if(layout != null){
+        if (layout != null) {
             TransitionManager.beginDelayedTransition(layout, new AutoTransition());
             layout.setVisibility(layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         }
         //Toast.makeText(this, "Show more", Toast.LENGTH_SHORT).show();
     }
+
     // Метод для создания фрагмента по его id
     @SuppressLint("NonConstantResourceId")
     private Fragment whichFragment(int id) {
+        //if (binding.mainFrame.getTag().equals(CURRENT_FRAGMENT)) return null;
         switch (id) {
-            case R.id.nav_stud:
-                CURRENT_FRAGMENT = R.id.fragment_student_info;
-                return new StudentInfoFragment();
-            case R.id.fragment_second:
-                CURRENT_FRAGMENT = R.id.fragment_second;
-                return new SecondFragment();
-            default:
+            //TODO Доделать правильный навигационный переход
+            case R.id.nav_documents:
+                //CURRENT_FRAGMENT = R.id.fragment_student_info;
+                return null;
+            case R.id.nav_list:
                 CURRENT_FRAGMENT = R.id.fragment_main;
                 return new MainFragment();
+            default:
+                CURRENT_FRAGMENT = 0;
+                return null;
         }
     }
 
 
     private void loadFragment(Fragment fragment) {
+        if (fragment == null) return;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         //if(getSupportFragmentManager().findFragmentByTag("StudentInfoFragment") == null)
-        transaction.replace(R.id.mainFrame, fragment);
-        if(CURRENT_FRAGMENT == R.id.fragment_student_info)
+        transaction.replace(R.id.mainFrame, fragment,String.valueOf(CURRENT_FRAGMENT));
+        if (CURRENT_FRAGMENT == R.id.fragment_student_info)
             transaction.addToBackStack("StudentInfoFragment");
         transaction.commit();
     }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CuratorsTTIT</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="user_key">a56416a5s4645665</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="group">Группа</string>
     <string name="edit">Изменить</string>
@@ -54,6 +55,10 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
 
+    <string-array name="frazes">
+        <item>Лучший помощник куратора</item>
+        <item>Вход</item>
+    </string-array>
     <string name="sign_in">Войти в аккаунт</string>
     <string name="text_delete">удалить</string>
     <string name="text_close">закрыть</string>

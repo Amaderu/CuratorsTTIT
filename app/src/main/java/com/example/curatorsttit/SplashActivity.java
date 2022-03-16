@@ -3,12 +3,16 @@ package com.example.curatorsttit;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -37,61 +41,56 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-        /*ImageView rocketImage = (ImageView) findViewById(R.id.progress);
-        rocketImage.setBackgroundResource(R.drawable.ic_progress);
-
-        rocketAnimation = rocketImage.getBackground();
-        if (rocketAnimation instanceof Animatable) {
-            ((Animatable)rocketAnimation).start();
-        }*/
-        ImageView backgroundImage  = binding.progressDrawable;
-        Animation rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate);
-        backgroundImage.startAnimation(rotateAnimation);
-        if(binding.progressBar.getProgress()==100){
-            handler.postDelayed(() -> startActivity(intent),3000l);
-        }
         intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        ApiService.getInstance().getApi().auth("kokin", "QWEasd").enqueue(new Callback<Users>() {
 
-            @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
-                if(response.isSuccessful()){
-                    builder.setTitle("tittle").setMessage(String.valueOf(response.code()))
-                            .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    startActivity(intent);
-                                }
-                            });
-                /*.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });*/
-                    // Create the AlertDialog object and return it
-                    builder.create().show();
-                    Toast.makeText(SplashActivity.this,"Вы Вошли в систему",Toast.LENGTH_LONG).show();
+    /**
+     * If network connectivity is available, will return true
+     *
+     * @param context the current context
+     * @return boolean true if a network connection is available
+     */
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity == null) {
+            Log.d("NetworkCheck", "isNetworkAvailable: No");
+            return false;
+        }
+
+        // get network info for all of the data interfaces (e.g. WiFi, 3G, LTE, etc.)
+        NetworkInfo[] info = connectivity.getAllNetworkInfo();
+
+        // make sure that there is at least one interface to test against
+        if (info != null) {
+            // iterate through the interfaces
+            for (int i = 0; i < info.length; i++) {
+                // check this interface for a connected state
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                    Log.d("NetworkCheck", "isNetworkAvailable: Yes");
+                    return true;
                 }
-                else Toast.makeText(SplashActivity.this,"Произошла ошибка",Toast.LENGTH_LONG).show();
             }
+        }
+        return false;
+    }
 
-            @Override
-            public void onFailure(Call<Users> call, Throwable t) {
-                binding.progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(SplashActivity.this,"Ошибка - отсутствие интернета",Toast.LENGTH_LONG).show();
-            }
-        });
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //TODO не забыть создать базовую активность
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if(!isNetworkAvailable(this)){
+            builder.setTitle("Ошибка").setMessage("отсутствует интернет").setPositiveButton("Ок", null).create().show();
+            return;
+        }
+        else startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        binding = null;
     }
 }
