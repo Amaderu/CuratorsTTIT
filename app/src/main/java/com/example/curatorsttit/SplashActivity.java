@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.curatorsttit.databinding.ActivitySplashBinding;
 import com.example.curatorsttit.models.Users;
 import com.example.curatorsttit.network.ApiService;
+import com.example.curatorsttit.ui.login.MainFragment;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +43,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-        intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //if(getArguments()!=null)
+
     }
 
 
@@ -81,11 +85,10 @@ public class SplashActivity extends AppCompatActivity {
         super.onResume();
         //TODO не забыть создать базовую активность
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        if(!isNetworkAvailable(this)){
+        if (!isNetworkAvailable(this)) {
             builder.setTitle("Ошибка").setMessage("отсутствует интернет").setPositiveButton("Ок", null).create().show();
             return;
-        }
-        else startActivity(intent);
+        } else startActivity(intent);
     }
 
     @Override

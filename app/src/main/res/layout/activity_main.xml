@@ -5,27 +5,14 @@
     android:id="@+id/mainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".MainActivity">
 
 
     <FrameLayout
         android:id="@+id/mainFrame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/nav_bar"></FrameLayout>
+        android:layout_height="match_parent">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="?colorPrimary"
-        app:itemHorizontalTranslationEnabled="true"
-        android:layout_gravity="bottom"
-        app:itemIconTint="?colorOnSecondary"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/navigation_bar" />
-
-
+    </FrameLayout>
 </RelativeLayout>

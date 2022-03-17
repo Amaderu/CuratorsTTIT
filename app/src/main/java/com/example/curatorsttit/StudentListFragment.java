@@ -28,8 +28,8 @@ import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
-    public MainFragment() {
+public class StudentListFragment extends Fragment {
+    public StudentListFragment() {
         // Required empty public constructor
     }
 
@@ -67,7 +67,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_student_list, container, false);
         /*Spinner spinner = (Spinner) view.findViewById(R.id.spinner_groups);
         ArrayAdapter<CharSequence> adapter =
                 ArrayAdapter.createFromResource(getContext(), R.array.groups,R.layout.cus_spinn);

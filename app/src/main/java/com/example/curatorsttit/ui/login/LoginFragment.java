@@ -1,7 +1,9 @@
 package com.example.curatorsttit.ui.login;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.SplashActivity;
+import com.example.curatorsttit.StudentListFragment;
 import com.example.curatorsttit.databinding.FragmentLoginBinding;
 import com.example.curatorsttit.models.Users;
 import com.example.curatorsttit.network.ApiService;
@@ -57,8 +60,8 @@ public class LoginFragment extends Fragment {
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        /*args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);*/
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,8 +98,22 @@ public class LoginFragment extends Fragment {
                                         public void onClick(DialogInterface dialog, int id) {
                                         }
                                     });
+                            SharedPreferences prefs = requireActivity().getPreferences(Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString(getString(R.string.user_key), username);
+                            editor.apply();
                             builder.create().show();
                             Toast.makeText(requireContext(), "Вы вошли как в систему", Toast.LENGTH_LONG).show();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(getString(R.string.user_key),username);
+                            Fragment toFragment =  new StudentListFragment();
+                            if(toFragment != null)
+                                toFragment.setArguments(bundle);
+                            requireActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.mainFrame, toFragment, String.valueOf(R.id.fragment_student_list))
+                                    .commit();
+
                         } else
                             Toast.makeText(requireContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
                     }

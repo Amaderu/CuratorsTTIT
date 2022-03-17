@@ -13,7 +13,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Api {
-    @GET("user19/api//Students")
+    @GET("user19/api/Students")
     Call<List<Student>> getStudentByGroupId(@Query("idGroup") int id);
 
     @GET("user19/api/Users")

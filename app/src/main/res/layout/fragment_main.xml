@@ -1,77 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorOnSecondary"
-    tools:context=".MainFragment">
+    android:id="@+id/fragment_main"
+    tools:context=".ui.login.MainFragment">
 
-    <!--<TextView
+
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Список студентов"
-        android:gravity="top|center_horizontal"
-        android:textColor="@color/yellow"
-        android:textSize="40sp" />-->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:layout_above="@id/nav_bar"></FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="?colorPrimary"
+        app:itemHorizontalTranslationEnabled="true"
+        app:itemIconTint="?colorOnSecondary"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/navigation_bar" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/products_search_box"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Поиск студента"/>
 
-        <ImageButton
-            android:id="@+id/products_search_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="@color/white"
-            android:contentDescription="Поиск студента"
-            app:srcCompat="@drawable/ic_search"/>
-
-    </LinearLayout>-->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintVertical_bias="0.0">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/lvMain"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:entries="@array/names" />
-
-        </LinearLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
