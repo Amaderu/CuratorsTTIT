@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CuratorsTTIT"
+        android:theme="@style/Theme.Curators"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".SplashActivity"

@@ -1,4 +1,10 @@
 package com.example.curatorsttit.common;
+
+import android.text.Editable;
+import android.util.Patterns;
+
+import androidx.annotation.Nullable;
+
 public class Validator {
     void validateFields(){
 
@@ -23,5 +29,14 @@ public class Validator {
             return false;
         }*/
         return true;
+    }
+
+    public boolean isEmailValid(@Nullable String text){
+        //Перед тем, как отправить данные на сервер для получения токена, необходимо проверить
+        //заполненность полей, а также наличие символа @ в поле для Email.
+        return !text.isEmpty() && !text.matches("^[A-Za-z.]+?\\@[A-Za-z]+\\.[A-Za-z]{2,3}$");
+    }
+    private boolean isPasswordValid(@Nullable Editable text) {
+        return text != null && text.length() >= 8;
     }
 }

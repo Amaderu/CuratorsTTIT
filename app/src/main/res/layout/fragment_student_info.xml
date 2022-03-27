@@ -19,6 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card1"
         android:layout_width="match_parent"
@@ -36,10 +37,11 @@
             android:layout_height="wrap_content"
             android:background="?colorOnSecondary"
             android:onClick="show"
-            android:textColor="@color/black"
+            android:textSize="18sp"
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp"
-            android:text="Общая информация▼" />
+            android:text="Общая информация▼"
+            android:textColor="@color/black" />
 
         <RelativeLayout
             android:id="@+id/expandable"
@@ -100,9 +102,9 @@
                 android:layout_below="@id/textView3"
                 android:layout_alignStart="@id/textView4"
                 android:enabled="false"
-                android:maxLength="2"
                 android:hint="20"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="2" />
 
         </RelativeLayout>
 
@@ -112,22 +114,25 @@
         android:id="@+id/card2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="Общая информация"
+        android:contentDescription="Мед данные"
         app:cardCornerRadius="10dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card1">
+
         <TextView
             android:id="@+id/medInf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?colorOnSecondary"
+            android:onClick="show"
+            android:textSize="18sp"
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp"
             android:text="Мед. данные▼"
-            android:onClick="show"
             android:textColor="@color/black" />
+
         <RelativeLayout
             android:id="@+id/expandable2"
             android:layout_width="match_parent"
@@ -136,7 +141,7 @@
             android:layout_marginTop="35dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvINOILA"
@@ -165,8 +170,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvINOILA"
-                android:enabled="false"
                 android:layout_alignParentEnd="true"
+                android:enabled="false"
 
                 android:hint="@string/ITN"
                 android:inputType="date"
@@ -198,6 +203,7 @@
                 android:hint="20"
                 android:inputType="numberDecimal"
                 android:maxLength="2" />
+
             <TextView
                 android:id="@+id/number"
                 android:layout_width="wrap_content"
@@ -222,7 +228,111 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Данные паспорта"
+        app:cardCornerRadius="10dp"
 
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card2">
+
+        <TextView
+            android:id="@+id/documents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorOnSecondary"
+            android:onClick="show"
+            android:textSize="18sp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="Паспорт▼"
+            android:textColor="@color/black" />
+
+        <RelativeLayout
+            android:id="@+id/expandable3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Данные о семье"
+        app:cardCornerRadius="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card3">
+
+        <TextView
+            android:id="@+id/family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorOnSecondary"
+            android:onClick="show"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="Семья▼"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
+
+        <RelativeLayout
+            android:id="@+id/expandable4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Справки и пропуски"
+        app:cardCornerRadius="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card4">
+
+        <TextView
+            android:id="@+id/sicknessСertificates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorOnSecondary"
+            android:onClick="show"
+            android:textSize="18sp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="Справки▼"
+            android:textColor="@color/black" />
+
+        <RelativeLayout
+            android:id="@+id/expandable5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

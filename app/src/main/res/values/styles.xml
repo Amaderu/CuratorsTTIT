@@ -47,5 +47,53 @@
         <item name="android:layout_marginHorizontal" tools:targetApi="o">32dp</item>
         <item name="android:layout_marginBottom">16dp</item>
         <item name="android:backgroundTint">@color/yellow</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="Widget.Curator.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.Curator.TextInputLayout.HintText</item>
+        <item name="hintTextColor">?android:attr/colorPrimary</item>
+        <item name="android:textColorHint">?android:attr/colorPrimary</item>
+        <item name="android:textColor">?android:attr/colorPrimary</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="boxStrokeColor">?android:attr/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Curator.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.Curator.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+        <!--<item name="android:stateListAnimator" tools:ignore="NewApi">
+            @animator/shr_next_button_state_list_anim
+        </item>-->
+    </style>
+
+    <style name="Widget.Curator.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.Curator.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:theme">@style/Theme.Curators</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Curator.Toolbar</item>
+    </style>
+
+    <style name="TextAppearance.Curator.Toolbar" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Curator.Title" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="Widget.Curator.Backdrop" parent="">
+        <item name="android:background">?attr/colorAccent</item>
     </style>
 </resources>

@@ -13,13 +13,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Api {
-    @GET("user19/api/Students")
+    @GET("/api/Students")
     Call<List<Student>> getStudentByGroupId(@Query("idGroup") int id);
 
-    @GET("user19/api/Users")
+    @GET("/api/Users")
     Call<List<Users>> getAllUsers();
 
-    @GET("user19/api/Users")
+    @GET("/api/Users")
     Call<Users> auth(@Query("login") String login, @Query("passsword") String password);
 
     /*

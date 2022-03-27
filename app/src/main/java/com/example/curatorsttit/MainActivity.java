@@ -28,7 +28,7 @@ import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.login.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationHost {
     ActionBar actionBar;
     Toolbar toolbar;
     ViewPager viewPager;
@@ -75,15 +75,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (username != null){
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.user_key),username);
-            toFragment =  whichFragment(R.id.fragment_main);
+            /*toFragment =  whichFragment(R.id.fragment_main);
             if(toFragment != null){
                 toFragment.setArguments(bundle);
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.mainFrame, toFragment, String.valueOf(R.id.fragment_main))
                         .commit();
+            }*/
+            toFragment = new MainFragment();
+            toFragment.setArguments(bundle);
+            navigateTo(toFragment, false);
 
-            }
+        }
+        else {
+            toFragment = new LoginFragment();
+            navigateTo(toFragment, false);
         }
 
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -102,9 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        if (CURRENT_FRAGMENT == R.id.fragment_login) {
+        /*if (CURRENT_FRAGMENT == R.id.fragment_login) {
             return;
-        }
+        }*/
 
     }
 
@@ -195,6 +202,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction.replace(R.id.container, fragment, String.valueOf(CURRENT_FRAGMENT));
         if (CURRENT_FRAGMENT == R.id.fragment_student_info)
             transaction.addToBackStack("StudentInfoFragment");
+        transaction.commit();
+    }
+
+    @Override
+    public void navigateTo(Fragment fragment, boolean addToBackstack) {
+        if (fragment == null) return;
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.mainFrame, fragment);
+
+        if (addToBackstack) {
+            transaction.addToBackStack(null);
+        }
+
         transaction.commit();
     }
 }
