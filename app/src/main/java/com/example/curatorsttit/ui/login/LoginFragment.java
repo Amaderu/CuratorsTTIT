@@ -22,6 +22,7 @@ import com.example.curatorsttit.models.Users;
 import com.example.curatorsttit.network.ApiService;
 
 import java.util.Random;
+import java.util.prefs.Preferences;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -137,7 +138,8 @@ public class LoginFragment extends Fragment {
                             Fragment toFragment = new MainFragment();
                             toFragment.setArguments(bundle);
 
-                            ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
+                            ((NavigationHost) getActivity()).navigateTo(toFragment, false);
+                            (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),username).commit();// Navigate to the next Fragment
                             Toast.makeText(requireContext(), "Вы вошли в систему", Toast.LENGTH_LONG).show();
 
                         } else
@@ -166,7 +168,12 @@ public class LoginFragment extends Fragment {
         /*binding.logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),"username").commit();
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.user_key), "username");
+                bundle.putInt("CURATOR_ID", 123);
                 Fragment toFragment = new MainFragment();
+                toFragment.setArguments(bundle);
                 ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
             }
         });*/

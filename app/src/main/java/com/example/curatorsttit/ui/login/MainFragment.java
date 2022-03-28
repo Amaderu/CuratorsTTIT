@@ -81,7 +81,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getFragmentManager()
+        getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.container, new StudentListFragment(), String.valueOf(R.id.fragment_student_list))
                 .commit();

@@ -2,9 +2,11 @@ package com.example.curatorsttit;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.models.Groups;
 import com.example.curatorsttit.network.ApiService;
+import com.example.curatorsttit.ui.login.LoginFragment;
+import com.example.curatorsttit.ui.login.MainFragment;
 
 import org.mockito.internal.matchers.Null;
 
@@ -156,7 +161,28 @@ public class StudentListFragment extends Fragment {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //TODO Проверить работу поиска спиннера после создания
         groups = toolbar.findViewById(R.id.spinner_groups);
+        ImageView imageView = (ImageView) toolbar.findViewById(R.id.logo_icon);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
         return view;
+    }
+
+    void logout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Выход из аккаунта").setMessage("Вы точно хотите выйти из аккаунта?")
+                .setPositiveButton("Ок", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().remove(getString(R.string.user_key)).commit();
+                        Fragment toFragment = new LoginFragment();
+                        ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
+                    }
+                })
+                .setNegativeButton("Нет", null);
+        builder.create().show();
     }
 
 
@@ -190,7 +216,7 @@ public class StudentListFragment extends Fragment {
         adapter.clear();
         for (Groups item :
                 newGroups) {
-            if(item.getNumber()!= null)
+            if (item.getNumber() != null)
                 adapter.add(item.getNumber());
         }
 

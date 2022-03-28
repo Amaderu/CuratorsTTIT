@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
 
 import java.util.ArrayList;
@@ -71,6 +72,13 @@ public class StudentListViewAdapter extends BaseAdapter {
         holder.name.setText(StudentsList.get(position).toString());
         holder.group.setText("89");
         holder.group.setVisibility(groupVisability);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity m = ((MainActivity)mContext);
+                m.loadFragment(m.whichFragment(R.id.fragment_student_info));
+            }
+        });
         return view;
     }
 

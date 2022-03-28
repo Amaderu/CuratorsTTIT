@@ -5,6 +5,7 @@
     android:id="@+id/fragment_student_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_100"
     tools:context=".listeners.StudentInfoFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,319 +21,366 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Общая информация"
-        app:cardCornerRadius="10dp"
-
+        android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-        <TextView
-            android:id="@+id/commonInf"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorOnSecondary"
-            android:onClick="show"
-            android:textSize="18sp"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="Общая информация▼"
-            android:textColor="@color/black" />
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/expandable"
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:contentDescription="Общая информация"
+            app:cardCornerRadius="10dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ФИО:" />
-
-            <EditText
-                android:id="@+id/studentSNP"
+                android:id="@+id/commonInf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView2"
-                android:enabled="false"
-                android:hint="ФИО"
-                android:inputType="textAutoCorrect" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/studentSNP"
-                android:text="Дата рождения:" />
-
-            <EditText
-                android:id="@+id/studentBirth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView3"
-                android:enabled="false"
-                android:hint="01/01/1990"
-                android:inputType="date"
-                android:maxLength="10"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/studentSNP"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/textView3"
-                android:text="Полных лет:" />
-
-            <EditText
-                android:id="@+id/studentYears"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView3"
-                android:layout_alignStart="@id/textView4"
-                android:enabled="false"
-                android:hint="20"
-                android:inputType="numberDecimal"
-                android:maxLength="2" />
-
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Мед данные"
-        app:cardCornerRadius="10dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card1">
-
-        <TextView
-            android:id="@+id/medInf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorOnSecondary"
-            android:onClick="show"
-            android:textSize="18sp"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="Мед. данные▼"
-            android:textColor="@color/black" />
-
-        <RelativeLayout
-            android:id="@+id/expandable2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tvINOILA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/INofILA" />
-
-            <EditText
-                android:id="@+id/studentINOILA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvINOILA"
-                android:enabled="false"
-                android:hint="@string/INofILA"
-                android:inputType="numberDecimal" />
-
-            <TextView
-                android:id="@+id/tvITN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="@string/ITN" />
-
-            <EditText
-                android:id="@+id/studentITN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvINOILA"
-                android:layout_alignParentEnd="true"
-                android:enabled="false"
-
-                android:hint="@string/ITN"
-                android:inputType="date"
-                android:maxLength="10"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/IMPN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/studentITN"
-                android:text="@string/IMPN" />
-
-            <TextView
-                android:id="@+id/seria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/IMPN"
+                android:background="?colorOnSecondary"
+                android:onClick="show"
+                android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:text="Серия" />
+                android:text="Общая информация▼"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/studentIMPNSSeria"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/expandable"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/IMPN"
-                android:layout_toRightOf="@id/seria"
-                android:enabled="false"
-                android:hint="20"
-                android:inputType="numberDecimal"
-                android:maxLength="2" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ФИО:" />
+
+                <EditText
+                    android:id="@+id/studentSNP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView2"
+                    android:enabled="false"
+                    android:hint="ФИО"
+                    android:inputType="textAutoCorrect" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentSNP"
+                    android:text="Дата рождения:" />
+
+                <EditText
+                    android:id="@+id/studentBirth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView3"
+                    android:enabled="false"
+                    android:hint="01/01/1990"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentSNP"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/textView3"
+                    android:text="Полных лет:" />
+
+                <EditText
+                    android:id="@+id/studentYears"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView3"
+                    android:layout_alignStart="@id/textView4"
+                    android:enabled="false"
+                    android:hint="20"
+                    android:inputType="numberDecimal"
+                    android:maxLength="2" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="Мед данные"
+            app:cardCornerRadius="10dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card1">
 
             <TextView
-                android:id="@+id/number"
-                android:layout_width="wrap_content"
+                android:id="@+id/medInf"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/IMPN"
-                android:layout_toEndOf="@id/studentIMPNSSeria"
+                android:background="?colorOnSecondary"
+                android:onClick="show"
+                android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
-                android:text="Номер" />
+                android:text="Мед. данные▼"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/studentIMPNSNumber"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/expandable2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/IMPN"
-                android:layout_toRightOf="@id/number"
-                android:enabled="false"
-                android:hint="01189496421"
-                android:inputType="numberDecimal"
-                android:maxLength="2" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvINOILA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/INofILA" />
 
-    </androidx.cardview.widget.CardView>
+                <EditText
+                    android:id="@+id/studentINOILA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvINOILA"
+                    android:enabled="false"
+                    android:hint="@string/INofILA"
+                    android:inputType="numberDecimal" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Данные паспорта"
-        app:cardCornerRadius="10dp"
+                <TextView
+                    android:id="@+id/tvITN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/ITN" />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card2">
+                <EditText
+                    android:id="@+id/studentITN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvINOILA"
+                    android:layout_alignParentEnd="true"
+                    android:enabled="false"
 
-        <TextView
-            android:id="@+id/documents"
+                    android:hint="@string/ITN"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/IMPN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentITN"
+                    android:text="@string/IMPN" />
+
+                <TextView
+                    android:id="@+id/seria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/IMPN"
+                    android:paddingVertical="10dp"
+                    android:text="Серия" />
+
+                <EditText
+                    android:id="@+id/studentIMPNSSeria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/IMPN"
+                    android:layout_toRightOf="@id/seria"
+                    android:enabled="false"
+                    android:hint="20"
+                    android:inputType="numberDecimal"
+                    android:maxLength="2" />
+
+                <TextView
+                    android:id="@+id/number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/IMPN"
+                    android:layout_toEndOf="@id/studentIMPNSSeria"
+                    android:paddingVertical="10dp"
+                    android:text="Номер" />
+
+                <EditText
+                    android:id="@+id/studentIMPNSNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/IMPN"
+                    android:layout_toRightOf="@id/number"
+                    android:enabled="false"
+                    android:hint="01189496421"
+                    android:inputType="numberDecimal"
+                    android:maxLength="2" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorOnSecondary"
-            android:onClick="show"
-            android:textSize="18sp"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="Паспорт▼"
-            android:textColor="@color/black" />
+            android:contentDescription="Данные паспорта"
+            app:cardCornerRadius="10dp"
 
-        <RelativeLayout
-            android:id="@+id/expandable3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card2">
+
+            <TextView
+                android:id="@+id/documents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorOnSecondary"
+                android:onClick="show"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:text="Паспорт▼"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/expandable3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:contentDescription="Данные о семье"
+            app:cardCornerRadius="10dp"
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Данные о семье"
-        app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card3">
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card3">
+            <TextView
+                android:id="@+id/family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorOnSecondary"
+                android:onClick="show"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:text="Родители/Опекуны▼"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/family"
+            <RelativeLayout
+                android:id="@+id/expandable4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <EditText
+                    android:id="@+id/FatherSNP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:hint="ФИО"
+                    android:inputType="textAutoCorrect" />
+
+                <TextView
+                    android:id="@+id/textView3Number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/FatherSNP"
+                    android:padding="10dp"
+                    android:text="Телефон:"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/FatherNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/FatherSNP"
+                    android:layout_toEndOf="@id/textView3Number"
+                    android:enabled="false"
+                    android:hint="+7 (999) 999 99 99"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:textColor="@color/black" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorOnSecondary"
-            android:onClick="show"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="Семья▼"
-            android:textSize="18sp"
-            android:textColor="@color/black" />
+            android:contentDescription="Справки и пропуски"
+            app:cardCornerRadius="10dp"
 
-        <RelativeLayout
-            android:id="@+id/expandable4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card4">
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="Справки и пропуски"
-        app:cardCornerRadius="10dp"
+            <TextView
+                android:id="@+id/sicknessСertificates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?colorOnSecondary"
+                android:onClick="show"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                android:text="Справки▼"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card4">
+            <RelativeLayout
+                android:id="@+id/expandable5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        <TextView
-            android:id="@+id/sicknessСertificates"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?colorOnSecondary"
-            android:onClick="show"
-            android:textSize="18sp"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="10dp"
-            android:text="Справки▼"
-            android:textColor="@color/black" />
-
-        <RelativeLayout
-            android:id="@+id/expandable5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -156,6 +156,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.medInf:
                 layout = (RelativeLayout) view2.findViewById(R.id.expandable2);
                 break;
+            case R.id.documents:
+                layout = (RelativeLayout) view2.findViewById(R.id.expandable3);
+                break;
+            case R.id.family:
+                layout = (RelativeLayout) view2.findViewById(R.id.expandable4);
+                break;
+            case R.id.sicknessСertificates:
+                layout = (RelativeLayout) view2.findViewById(R.id.expandable5);
+                break;
             default: {
                 //TODO доделать для остальных блокоф инфы
             }
@@ -174,9 +183,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //if (binding.mainFrame.getTag().equals(CURRENT_FRAGMENT)) return null;
         switch (id) {
             //TODO Доделать правильный навигационный переход
-            case R.id.nav_documents:
-                //CURRENT_FRAGMENT = R.id.fragment_student_info;
-                return null;
+            case R.id.fragment_student_info:
+                CURRENT_FRAGMENT = R.id.fragment_student_info;
+                return new StudentInfoFragment();
             case R.id.nav_list:
                 CURRENT_FRAGMENT = R.id.fragment_student_list;
                 return new StudentListFragment();
