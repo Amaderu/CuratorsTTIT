@@ -133,6 +133,7 @@ public class LoginFragment extends Fragment {
                             builder.create().show();
                             Bundle bundle = new Bundle();
                             bundle.putString(getString(R.string.user_key), username);
+                            bundle.putInt("CURATOR_ID", response.body().getId());
                             Fragment toFragment = new MainFragment();
                             toFragment.setArguments(bundle);
 

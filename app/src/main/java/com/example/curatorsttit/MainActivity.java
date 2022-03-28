@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .replace(R.id.mainFrame, fragment);
 
         if (addToBackstack) {
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(fragment.getTag());
         }
 
         transaction.commit();

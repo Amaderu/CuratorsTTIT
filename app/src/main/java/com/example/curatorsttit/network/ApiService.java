@@ -12,8 +12,8 @@ public class ApiService {
     //private static final String BASE_URL = "http://localhost:4119/api/";
     //String[] array = new String[]{"http://192.168.13.183:4119/api/", "http://192.168.13.183:4119/user19/api/"};
     //private static final String BASE_URL = "http://192.168.13.183:4119/api/";
-    //private static final String BASE_URL = "http://192.168.13.183:4119/user19/";
-    private static final String BASE_URL = "http://192.168.1.207:5000/";
+    private static final String BASE_URL = "http://192.168.13.183:4119/user19/";
+    //private static final String BASE_URL = "http://192.168.1.207:5000/";
     private Retrofit mRetrofit;
 
     public static ApiService getInstance() {
