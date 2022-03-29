@@ -212,7 +212,10 @@ public class StudentListFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+            ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
         adapter.clear();
         for (Groups item :
                 newGroups) {

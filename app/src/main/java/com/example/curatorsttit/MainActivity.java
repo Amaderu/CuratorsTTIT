@@ -3,14 +3,19 @@ package com.example.curatorsttit;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -24,9 +29,12 @@ import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.databinding.ActivityMainBinding;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
+import com.example.curatorsttit.ui.documents.DocumentsFragment;
 import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.login.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationHost {
     ActionBar actionBar;
@@ -71,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
+        requestPermissionsIfNecessary(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+        });
         String username = getPreferences(Context.MODE_PRIVATE).getString(getString(R.string.user_key), null);
         if (username != null){
             Bundle bundle = new Bundle();
@@ -105,6 +117,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    /*private static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 41;
+    public boolean checkPermissionForReadExtertalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = getBaseContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+    public void requestPermissionForReadExtertalStorage() throws Exception {
+        try {
+            AppCompatActivity.requestPermissions(getBaseContext(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    READ_STORAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }*/
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 41;
+    private void requestPermissionsIfNecessary(String[] permissions) {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                permissionsToRequest.add(permission);
+            }
+        }
+        if (permissionsToRequest.size() > 0) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissionsToRequest.toArray(new String[permissionsToRequest.size()]),
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+    /**/
+
 
     @Override
     protected void onStart() {
@@ -195,6 +243,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fragment_main:
                 CURRENT_FRAGMENT = R.id.fragment_main;
                 return new MainFragment();
+            case R.id.fragment_documents:
+                CURRENT_FRAGMENT = R.id.fragment_documents;
+                return new DocumentsFragment();
+            case R.id.nav_documents:
+                CURRENT_FRAGMENT = R.id.fragment_documents;
+                return new DocumentsFragment();
             default:
                 CURRENT_FRAGMENT = 0;
                 return null;
