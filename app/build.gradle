@@ -65,6 +65,7 @@ dependencies {
 
     //MS excel
     implementation "com.github.SUPERCILEX.poi-android:poi:$rootProject.poiVersion"
+    implementation "com.github.SUPERCILEX.poi-android:proguard:$rootProject.poiVersion"
     androidTestImplementation 'androidx.test:rules:1.4.1-alpha04'
     compileOnly "org.apache.poi:poi-ooxml:$rootProject.poiVersion"
     /*---------------------------*/

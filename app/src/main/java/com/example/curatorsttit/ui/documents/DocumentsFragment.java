@@ -10,20 +10,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.curatorsttit.R;
+import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.FragmentDocumetsBinding;
 import com.example.curatorsttit.databinding.FragmentMainBinding;
 import com.example.curatorsttit.models.Users;
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -89,7 +98,23 @@ public class DocumentsFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentDocumetsBinding.inflate(inflater, container, false);
         binding.document.setOnClickListener(view -> {
-            generateFile(view);
+            //generateFile(view);
+            /*try {
+                writeXLSXFile(folderPath+"/ExcelTest.xlsx");
+            } catch (IOException | InvalidFormatException e) {
+                e.printStackTrace();
+            }
+            try {
+                readExcelFile(folderPath+"/ExcelTest.xlsx");
+            } catch (IOException | InvalidFormatException e) {
+                e.printStackTrace();
+            }*/
+            try {
+                DocumentsCreator.getInstance().createDocumentStep(folderPath+"/ExcelTest.xlsx");
+                Toast.makeText(requireContext(),"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         return binding.getRoot();
         /*return inflater.inflate(R.layout.fragment_documets, container, false);*/
@@ -136,38 +161,71 @@ public class DocumentsFragment extends Fragment {
 
     }
     public void generateFile(View v){
-        Log.i("generateFile", "generateFile: Running Object Collection demo");
+        Log.i("generateFile", "generateFile: START generate");
         File sdcard = Environment.getExternalStorageDirectory();
-        File Excelfile = new File(sdcard,"/Documents/"+getString(R.string.app_name)+"/ExcelTest.xlsx");
-
-        try {
-            FileInputStream fileInput = new FileInputStream(Excelfile);
-            XSSFWorkbook wrkbk = new XSSFWorkbook(fileInput);
-            XSSFSheet sheet = wrkbk.createSheet("Sample sheet");
-            XSSFSheet sheet1 = wrkbk.getSheetAt(0);
+        File excelFile = new File(folderPath,"ExcelTest.xlsx");
+        if (!excelFile.exists()) {
+            try {
+                excelFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        /*excelFile.setExecutable()*/
+        //if (excelFile.exists()||excelFile.canRead())
+        /*try {
+            FileInputStream fileInput = new FileInputStream(excelFile);
+            OPCPackage packg = OPCPackage.open(excelFile);
+            Workbook wrkbk = new XSSFWorkbook(fileInput);
+            Sheet sheet = wrkbk.createSheet("Sample sheet");
+            Sheet sheet1 = wrkbk.getSheetAt(0);
             //Obtain reference to the Cell using getCell(int col, int row) method of sheet
-            /*Cell colArow1 = sheet1.getCellComment(0, 0);
+            *//*Cell colArow1 = sheet1.getCellComment(0, 0);
             Cell colBrow1 = sheet1.getCellComment(1, 0);
-            Cell colArow2 = sheet1.getCellComment(0, 1);*/
+            Cell colArow2 = sheet1.getCellComment(0, 1);
             //Read the contents of the Cell using getContents() method, which will return
             //it as a String
-            /*String str_colArow1 = colArow1.getContents();
+            String str_colArow1 = colArow1.getContents();
             String str_colBrow1 = colBrow1.getContents();
-            String str_colArow2 = colArow2.getContents();*/
+            String str_colArow2 = colArow2.getContents();*//*
             Cell cell = sheet1.getRow(1).getCell(0);
             cell.setCellValue(12134);
             //fileInput.close();
+            packg.close();
 
-            FileOutputStream outFile = new FileOutputStream(Excelfile);
+            FileOutputStream outFile = new FileOutputStream(excelFile);
             wrkbk.write(outFile);
             outFile.close();
 
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d("generateFile", "generateFile: Failed to generate");
         }
         catch(Exception e){
             e.printStackTrace();
-        }
+            Log.d("generateFile", "generateFile: Failed to generate");
+
+        }*/
+        /*try (FileInputStream inp = new FileInputStream(excelFile)) {
+            //InputStream inp = new FileInputStream("workbook.xlsx");
+            Workbook wb = WorkbookFactory.create(inp);
+            wb.createSheet("Data");
+            Sheet sheet = wb.getSheetAt(0);
+            sheet.createRow(2);
+            Row row = sheet.getRow(2);
+            Cell cell = row.getCell(3);
+            if (cell == null)
+                cell = row.createCell(3);
+            cell.setCellType(CellType.STRING);
+            cell.setCellValue("a test");
+            // Write the output to a file
+            try (OutputStream fileOut = new FileOutputStream(excelFile)) {
+                wb.write(fileOut);
+            }
+        } catch (IOException | InvalidFormatException | EncryptedDocumentException e) {
+            e.printStackTrace();
+            Log.d("generateFile", "generateFile: Failed to generate");
+        }*/
         /*List<Users> users = generateSampleUserData();
         try(InputStream is = ObjectCollectionDemo.class.getResourceAsStream("object_collection_template.xls")) {
             try (OutputStream os = new FileOutputStream("target/object_collection_output.xls")) {
@@ -181,4 +239,54 @@ public class DocumentsFragment extends Fragment {
 
 
     }
+    private void readExcelFile(String filePath) throws IOException, InvalidFormatException {
+        if(!new File(filePath).exists()) return;
+        Workbook workbook = WorkbookFactory.create(new File(filePath));
+        Sheet sheet = workbook.getSheetAt(0);
+        DataFormatter dataFormatter = new DataFormatter();
+        sheet.forEach(row -> {
+            row.forEach(cell -> {
+                String cellValue = dataFormatter.formatCellValue(cell);
+                System.out.print(cellValue + "\t");
+            });
+            System.out.println();
+        });
+        workbook.close();
+    }
+    public static void writeXLSXFile(String filePath) throws IOException, InvalidFormatException {
+        String sheetName = "Sheet1";//name of sheet
+        //XSSFWorkbook wb = new XSSFWorkbook();
+        /*XSSFWorkbook wb = new XSSFWorkbook(XSSFWorkbookType.XLSX);
+        XSSFSheet sheet = wb.createSheet(sheetName) ;*/
+        File file = new File(filePath);
+        //Workbook wb = WorkbookFactory.create(new File("ExcelTest.xlsx"));
+        /*if(file.exists()) return;
+        else file.createNewFile();
+        if(!file.canRead()) return;*/
+        Workbook wb = new XSSFWorkbook(XSSFWorkbookType.XLSX);
+        Sheet sheet = wb.createSheet("Лист1");
+
+        //iterating r number of rows
+        for (int r=0;r < 5; r++ )
+        {
+            Row row = sheet.createRow(r);
+
+            //iterating c number of columns
+            for (int c=0;c < 5; c++ )
+            {
+                Cell cell = row.createCell(c);
+
+                cell.setCellValue("Cell "+r+" "+c);
+            }
+        }
+
+        FileOutputStream fileOut = new FileOutputStream(filePath);
+
+        //write this workbook to an Outputstream.
+        wb.write(fileOut);
+        wb.close();
+        fileOut.flush();
+        fileOut.close();
+    }
+
 }
