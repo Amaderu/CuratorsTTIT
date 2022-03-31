@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void loadFragment(Fragment fragment) {
+        // TODO: 31.03.2022  Сделать нормальный переход
         if (fragment == null) return;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

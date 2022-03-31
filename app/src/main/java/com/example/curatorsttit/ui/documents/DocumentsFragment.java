@@ -97,6 +97,7 @@ public class DocumentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDocumetsBinding.inflate(inflater, container, false);
+        binding.document.setText("Ведомость для назначения на стипендию");
         binding.document.setOnClickListener(view -> {
             //generateFile(view);
             /*try {
