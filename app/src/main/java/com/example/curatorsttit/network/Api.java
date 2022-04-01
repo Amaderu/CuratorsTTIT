@@ -1,6 +1,7 @@
 package com.example.curatorsttit.network;
 
 import com.example.curatorsttit.models.Groups;
+import com.example.curatorsttit.models.Persons;
 import com.example.curatorsttit.models.Student;
 import com.example.curatorsttit.models.Users;
 
@@ -19,7 +20,8 @@ public interface Api {
 
     @GET("/api/Users")
     Call<List<Users>> getAllUsers();
-
+    @GET("/api/Persons")
+    Call<List<Persons>> getStudentsByGroup(@Query("groupId") int groupId);
     @GET("/api/Groups")
     Call<List<Groups>> getGroupsByCuratorId(@Query("userId") int userId);
 

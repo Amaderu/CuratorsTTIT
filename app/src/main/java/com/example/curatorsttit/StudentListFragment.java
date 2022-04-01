@@ -12,21 +12,28 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.curatorsttit.adapters.GroupSpinnerAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.models.Groups;
+import com.example.curatorsttit.models.Persons;
+import com.example.curatorsttit.models.Student;
 import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.login.MainFragment;
@@ -57,6 +64,9 @@ public class StudentListFragment extends Fragment {
     Toolbar toolbar;
     SearchView.OnQueryTextListener queryTextListener;
     Spinner groups;
+    List<String> ArraySpinnerGroup = new ArrayList<String>();
+    List<Groups> ArraySpinnerGroup2 = new ArrayList<Groups>();
+    List<String> listStudents = new ArrayList<>();
 
 
     @Override
@@ -74,7 +84,7 @@ public class StudentListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         refreshLayout = getView().findViewById(R.id.refresh);
-        refreshLayout.setOnRefreshListener(() -> UpdateStudentsList());
+        refreshLayout.setOnRefreshListener(() -> UpdateStudentsList(1));
         //Toolbar toolbar;
         //toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //ActionBar bar = (ActionBar) getActivity().getActionBar();
@@ -97,7 +107,6 @@ public class StudentListFragment extends Fragment {
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);*/
         namesList = view.findViewById(R.id.lvMain);
-        List<String> listStudents = new ArrayList<>();
         String[] students = getResources().getStringArray(R.array.names);
         for (String wp : students) {
             listStudents.add(wp);
@@ -161,6 +170,30 @@ public class StudentListFragment extends Fragment {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //TODO Проверить работу поиска спиннера после создания
         groups = toolbar.findViewById(R.id.spinner_groups);
+        //ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, ArraySpinnerGroup);
+        GroupSpinnerAdapter spinnerArrayAdapter = new GroupSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_item,android.R.id.text1, ArraySpinnerGroup2);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
+        groups.setAdapter(spinnerArrayAdapter);
+        //Заполнение групп куратора
+        curator_id = requireActivity().getPreferences(Context.MODE_PRIVATE).getInt("CURATOR_ID", -1);
+        loadCuratorGroup();
+        //TODO написать адаптер для групп
+        groups.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
+                Log.i("renderSpinner -> ", "onItemSelected: " + myPosition + "/" + myID);
+                ((TextView) parentView.getChildAt(0)).getText();
+                UpdateStudentsList(1);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
         ImageView imageView = (ImageView) toolbar.findViewById(R.id.logo_icon);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,8 +218,46 @@ public class StudentListFragment extends Fragment {
         builder.create().show();
     }
 
+    private void loadCuratorGroup() {
+        ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).enqueue(new Callback<List<Groups>>() {
+            @Override
+            public void onResponse(Call<List<Groups>> call, Response<List<Groups>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    updateInitSpinners(response.body());
+                }
+            }
 
-    private void UpdateStudentsList() {
+            @Override
+            public void onFailure(Call<List<Groups>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void UpdateStudentsList(int groupId) {
+        String selectedGroup = groups.getSelectedItem().toString();
+        Toast.makeText(requireContext(), selectedGroup, Toast.LENGTH_SHORT).show();
+        ApiService.getInstance().getApi().getStudentsByGroup(groupId).enqueue(new Callback<List<Persons>>() {
+            @Override
+            public void onResponse(Call<List<Persons>> call, Response<List<Persons>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listStudents.clear();
+                    for (Persons p :
+                            response.body()) {
+                        String FIO = p.getLastName() + p.getFirstName() + p.getMiddleName();
+                        listStudents.add(FIO);
+                    }
+                    adapter.notifyDataSetChanged();
+                    refreshLayout.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Persons>> call, Throwable t) {
+                t.printStackTrace();
+                refreshLayout.setRefreshing(false);
+            }
+        });
         /*ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).enqueue(new Callback<List<Groups>>() {
             @Override
             public void onResponse(Call<List<Groups>> call, Response<List<Groups>> response) {
@@ -207,24 +278,70 @@ public class StudentListFragment extends Fragment {
             }
         });*/
         List<Groups> newGroups = null;
-        try {
+        /*new Thread(() -> {
+            load();
+        }).start()*/
+        /*try {
             newGroups = ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
         catch (RuntimeException e) {
             e.printStackTrace();
-        }
-            ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
+        }*/
+
+
+        /*ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
         adapter.clear();
         for (Groups item :
                 newGroups) {
             if (item.getNumber() != null)
                 adapter.add(item.getNumber());
-        }
+        }*/
 
         // TODO написать обновление данных для групп и списка студентов
         //TODO в api проблемы при запросе давнных от имени Кирилла
-        refreshLayout.setRefreshing(false); // Disables the refresh icon
+
     }
+
+    private void updateInitSpinners(List<Groups> newGroups) {
+        if (groups.getSelectedItem() != null) {
+            String mySelected = groups.getSelectedItem().toString();
+            Log.i("TPRenderECommerce_Dialogue -> ", "updateInitSpinners -> mySelected: " + mySelected);
+        }
+
+        ArraySpinnerGroup.clear();
+        ArraySpinnerGroup2.clear();
+        for (Groups g :
+                newGroups) {
+            ArraySpinnerGroup.add(g.getNumber());
+        }
+        ArraySpinnerGroup2.addAll(newGroups);
+
+        ((BaseAdapter) groups.getAdapter()).notifyDataSetChanged();
+        groups.invalidate();
+        groups.setSelection(0);
+
+    }
+    /*private void updateInitSpinners(){
+
+        String mySelected = varSpinner.getSelectedItem().toString();
+        Log.i("TPRenderECommerce_Dialogue -> ", "updateInitSpinners -> mySelected: " + mySelected);
+
+
+        varSpinnerData.clear();
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(varRoot, android.R.layout.simple_spinner_item, varSpinnerData);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        varSpinner.setAdapter(spinnerArrayAdapter);
+
+
+        varSpinnerData.add("Hello World");
+        varSpinnerData.add("Hello World 2");
+
+        ((BaseAdapter) varSpinner.getAdapter()).notifyDataSetChanged();
+        varSpinner.invalidate();
+        varSpinner.setSelection(0);
+
+    }*/
 }

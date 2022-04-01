@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.StaticLayout;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -25,9 +26,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
+import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.ActivityMainBinding;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
 import com.example.curatorsttit.ui.documents.DocumentsFragment;
@@ -35,6 +38,7 @@ import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.login.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationHost {
@@ -91,9 +95,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Manifest.permission.READ_EXTERNAL_STORAGE
         });
         String username = getPreferences(Context.MODE_PRIVATE).getString(getString(R.string.user_key), null);
+        int userID = getPreferences(Context.MODE_PRIVATE).getInt("CURATOR_ID", -1);
         if (username != null){
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.user_key),username);
+            bundle.putInt("CURATOR_ID",userID);
             /*toFragment =  whichFragment(R.id.fragment_main);
             if(toFragment != null){
                 toFragment.setArguments(bundle);
@@ -166,6 +172,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         /*if (CURRENT_FRAGMENT == R.id.fragment_login) {
             return;
+        }*/
+
+        /*try {
+            String filepath = Environment.getExternalStorageDirectory().getPath();
+            File file = new File(filepath + "/Documents/"+getString(R.string.app_name));
+            String folderPath = file.getPath();
+            String filename = "Стипендиальная ведомость";
+            DocumentsCreator.getInstance().createDocumentStep(folderPath+"/"+filename+".xlsx");
+            Toast.makeText(MainActivity.this,"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }*/
 
     }

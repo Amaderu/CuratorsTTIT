@@ -111,7 +111,8 @@ public class DocumentsFragment extends Fragment {
                 e.printStackTrace();
             }*/
             try {
-                DocumentsCreator.getInstance().createDocumentStep(folderPath+"/ExcelTest.xlsx");
+                String filename = "Стипендиальная ведомость";
+                DocumentsCreator.getInstance().createDocumentStep(folderPath+"/"+filename+".xlsx");
                 Toast.makeText(requireContext(),"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();

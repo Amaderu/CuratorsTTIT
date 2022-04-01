@@ -72,7 +72,7 @@ public class DocumentsCreator {
         Row row2 = sheet.createRow(1);
         Row crRow;
         createDefaultCellStyle(wb);
-        for (int rows = 0; rows < 5; rows++) {
+        for (int rows = 0; rows < 36; rows++) {
             crRow = sheet.createRow(rows);
             if (rows == 0) crRow.setHeightInPoints(30F);
             else if (rows == 1) crRow.setHeightInPoints(34.5F);
@@ -132,7 +132,7 @@ public class DocumentsCreator {
         sheet.getRow(1).getCell(0).getCellStyle().setFont(fontThree);
         //----
         //Задание ширины столбцам
-        sheet.setColumnWidth(0, 4 * 256);
+        sheet.setColumnWidth(0, (int)(4.5 * 256));
         sheet.setColumnWidth(1, 9 * 256);
         sheet.setColumnWidth(2, 8 * 256);
         sheet.setColumnWidth(3, 23 * 256);
@@ -144,8 +144,7 @@ public class DocumentsCreator {
         //Объединение
         CellRangeAddress cra = new CellRangeAddress(row.getRowNum(), row.getRowNum(), 0, 23);
         sheet.addMergedRegion(cra);
-        cra.setFirstRow(1);
-        cra.setLastRow(1);
+        cra = new CellRangeAddress(1, 1, 0, 23);
         sheet.addMergedRegion(cra);
         cra = new CellRangeAddress(2, 4, 0, 0);
         sheet.addMergedRegion(cra);
@@ -157,14 +156,6 @@ public class DocumentsCreator {
         sheet.addMergedRegion(cra);
         cra = new CellRangeAddress(2, 4, 23, 23);
         sheet.addMergedRegion(cra);
-        //Внешние гранницы
-        PropertyTemplate pt = new PropertyTemplate();
-        // #1) these borders will all be medium in default color
-        //29Rx24C
-        CellRangeAddress borderCell = new CellRangeAddress(2, 5, 0, 23);
-        borderCell = new CellRangeAddress(2, 30, 0, 23);
-        pt.drawBorders(borderCell, BorderStyle.THIN, BorderExtent.ALL);
-        pt.applyBorders(sheet);
         //переворот листа
         sheet.getPrintSetup().setLandscape(true);
         sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
@@ -177,10 +168,6 @@ public class DocumentsCreator {
         //Установка области печати
         wb.setPrintArea(0, "$A$1:$X$36");
         //TODO рассмотреть вариацию колонтитулов
-        //Руководитель ________________
-        //Зав.отделением воспитательной работы Н.Б.Добрыднева CellRangeAddress(i, i, 1, 4);
-        //Зав.очным отделением Л.В. Коруз CellRangeAddress(i, i, 1, 3);
-        //Куратор группы __________________ CellRangeAddress(i, i, 1, 3);
         CellStyle style = createDefaultCellStyle(wb);
         for (int i = 32; i < 36; i++) {
             Row r = sheet.createRow(i);
@@ -209,20 +196,30 @@ public class DocumentsCreator {
             sheet.addMergedRegion(new CellRangeAddress(i, i, 1, 4));
             sheet.addMergedRegion(new CellRangeAddress(i, i, 12, 15));
         }
-        //style = createDefaultCellStyle(wb);
+        style = createDefaultCellStyle(wb);
         for (int i = 5; i < 31; i++) {
-            Font font = wb.getFontAt((short) 4);
+            Font font = wb.getFontAt((short) 5);
             font.setBold(false);
             font.setFontHeightInPoints((short) 12);
-            style = wb.getCellStyleAt(1);
+            style = wb.getCellStyleAt(5);
             style.setFont(font);
             sheet.createRow(i);
             sheet.getRow(i).createCell(0);
             sheet.getRow(i).getCell(0).setCellValue(i - 4);
             sheet.getRow(i).getCell(0).setCellStyle(style);
+            //Объединение для фамилий
+            sheet.addMergedRegion(new CellRangeAddress(i, i, 1, 3));
+
 
         }
         //TODO объединение ячеек для таблицы и все границы
+        //29Rx24C
+        //Внешние гранницы
+        PropertyTemplate pt = new PropertyTemplate();
+        // #1) these borders will all be medium in default color
+        //29Rx24C
+        pt.drawBorders(new CellRangeAddress(2, 30, 0, 23), BorderStyle.THIN, BorderExtent.ALL);
+        pt.applyBorders(sheet);
 
         // Write the output to a file
         try (OutputStream fileOut = new FileOutputStream(filePath)) {

@@ -140,6 +140,7 @@ public class LoginFragment extends Fragment {
 
                             ((NavigationHost) getActivity()).navigateTo(toFragment, false);
                             (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),username).commit();// Navigate to the next Fragment
+                            (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putInt("CURATOR_ID",response.body().getId()).commit();// Navigate to the next Fragment
                             Toast.makeText(requireContext(), "Вы вошли в систему", Toast.LENGTH_LONG).show();
 
                         } else
