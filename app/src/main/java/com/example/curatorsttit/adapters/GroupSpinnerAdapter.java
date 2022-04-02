@@ -34,4 +34,6 @@ public class GroupSpinnerAdapter extends ArrayAdapter<Groups> {
 
         return rowview;
     }
+
+
 }

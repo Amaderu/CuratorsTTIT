@@ -19,7 +19,9 @@ public class StudentListViewAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
+    //лист для отображения
     private List<String> StudentsList = null;
+    //лист для всех объектов
     private ArrayList<String> arraylist;
 
     public StudentListViewAdapter(Context context, List<String> StudentsList) {

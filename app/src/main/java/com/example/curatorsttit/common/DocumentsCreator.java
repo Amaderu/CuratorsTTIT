@@ -1,7 +1,9 @@
 package com.example.curatorsttit.common;
 
+import com.example.curatorsttit.models.Persons;
 import com.example.curatorsttit.network.ApiService;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.BorderExtent;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -16,14 +18,21 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.PropertyTemplate;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DocumentsCreator {
     private static DocumentsCreator mInstance;
@@ -132,7 +141,7 @@ public class DocumentsCreator {
         sheet.getRow(1).getCell(0).getCellStyle().setFont(fontThree);
         //----
         //Задание ширины столбцам
-        sheet.setColumnWidth(0, (int)(4.5 * 256));
+        sheet.setColumnWidth(0, (int) (4.5 * 256));
         sheet.setColumnWidth(1, 9 * 256);
         sheet.setColumnWidth(2, 8 * 256);
         sheet.setColumnWidth(3, 23 * 256);
@@ -209,8 +218,13 @@ public class DocumentsCreator {
             sheet.getRow(i).getCell(0).setCellStyle(style);
             //Объединение для фамилий
             sheet.addMergedRegion(new CellRangeAddress(i, i, 1, 3));
-
-
+            //Стиль для ФИО
+            createDefaultCellStyle(wb);
+            style = wb.getCellStyleAt(6);
+            style.setVerticalAlignment(VerticalAlignment.BOTTOM);
+            style.setFont(wb.getFontAt((short) 5));
+            sheet.getRow(i).createCell(1);
+            sheet.getRow(i).getCell(1).setCellStyle(style);
         }
         //TODO объединение ячеек для таблицы и все границы
         //29Rx24C
@@ -227,5 +241,37 @@ public class DocumentsCreator {
             //fileOut.flush();
         }
         wb.close();
+    }
+
+    public void updateDocStep(List<Persons> students, String filePath) throws Exception {
+        Workbook workbook = null;
+        try{
+            FileInputStream inputStream = new FileInputStream(new File(filePath));
+            workbook = WorkbookFactory.create(inputStream);
+        } catch (FileNotFoundException | InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Sheet sheet = workbook.getSheetAt(0);
+        //типо заполенине данными
+        List<Persons> persons = new ArrayList<Persons>(students);
+        persons.add(new Persons("Алфимова","Светлана","Александровна","afdas@gmail","+745646"));
+        persons.add(new Persons("Шарапова","Наталья","Александровна","gagga1@gmail","+76641631"));
+        int counter = 5;
+        for(Persons p : persons)
+        {
+            sheet.getRow(counter++).getCell(1).setCellValue(p.getFIO());
+        }
+        try (OutputStream outputStream = new FileOutputStream(filePath)) {
+            workbook.write(outputStream);
+            //fileOut.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        workbook.close();
+
     }
 }

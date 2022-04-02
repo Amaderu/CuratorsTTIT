@@ -29,18 +29,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.curatorsttit.adapters.GroupSpinnerAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.models.Groups;
 import com.example.curatorsttit.models.Persons;
-import com.example.curatorsttit.models.Student;
 import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.login.LoginFragment;
-import com.example.curatorsttit.ui.login.MainFragment;
 
-import org.mockito.internal.matchers.Null;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +52,7 @@ public class StudentListFragment extends Fragment {
     }
 
     ListView namesList;
-    StudentListViewAdapter adapter;
+    StudentListViewAdapter studentListAdapter;
     SearchView editsearch;
     SwipeRefreshLayout refreshLayout;
     Toolbar toolbar;
@@ -111,33 +105,35 @@ public class StudentListFragment extends Fragment {
         for (String wp : students) {
             listStudents.add(wp);
         }
-        adapter = new StudentListViewAdapter(getContext(), listStudents);
-        //TODO добавить прослушиватель нажатий на элемент
 
-        //editsearch = (SearchView) view.findViewById(R.id.simpleSearchView);
-        //editsearch = (SearchView) fragment.getView().findViewById(R.id.simpleSearchView);
+        //Адаптер для студентов
+        // TODO  добавить прослушиватель нажатий на элемент
+        studentListAdapter = new StudentListViewAdapter(getContext(), listStudents);
+        namesList.setAdapter(studentListAdapter);
+
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                studentListAdapter.notifyDataSetChanged();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 String text = newText;
-                if (adapter != null)
-                    adapter.filter(text);
+                if (studentListAdapter != null)
+                    studentListAdapter.filter(text);
                 if (!newText.isEmpty()) {
-                    adapter.setGroupVisability(View.VISIBLE);
-                    adapter.notifyDataSetChanged();
+                    studentListAdapter.setGroupVisability(View.VISIBLE);
+                    //adapter.notifyDataSetChanged();
                 } else {
-                    adapter.setGroupVisability(View.GONE);
-                    adapter.notifyDataSetChanged();
+                    studentListAdapter.setGroupVisability(View.GONE);
+                    //adapter.notifyDataSetChanged();
                 }
                 return false;
             }
         };
-        namesList.setAdapter(adapter);
+        //Настройка toolbar
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
         toolbar.addMenuProvider(new MenuProvider() {
@@ -170,8 +166,8 @@ public class StudentListFragment extends Fragment {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         //TODO Проверить работу поиска спиннера после создания
         groups = toolbar.findViewById(R.id.spinner_groups);
-        //ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, ArraySpinnerGroup);
-        GroupSpinnerAdapter spinnerArrayAdapter = new GroupSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_item,android.R.id.text1, ArraySpinnerGroup2);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, ArraySpinnerGroup);
+        //GroupSpinnerAdapter spinnerArrayAdapter = new GroupSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_item,android.R.id.text1, ArraySpinnerGroup2);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
         groups.setAdapter(spinnerArrayAdapter);
         //Заполнение групп куратора
@@ -234,76 +230,6 @@ public class StudentListFragment extends Fragment {
         });
     }
 
-    private void UpdateStudentsList(int groupId) {
-        String selectedGroup = groups.getSelectedItem().toString();
-        Toast.makeText(requireContext(), selectedGroup, Toast.LENGTH_SHORT).show();
-        ApiService.getInstance().getApi().getStudentsByGroup(groupId).enqueue(new Callback<List<Persons>>() {
-            @Override
-            public void onResponse(Call<List<Persons>> call, Response<List<Persons>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    listStudents.clear();
-                    for (Persons p :
-                            response.body()) {
-                        String FIO = p.getLastName() + p.getFirstName() + p.getMiddleName();
-                        listStudents.add(FIO);
-                    }
-                    adapter.notifyDataSetChanged();
-                    refreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Persons>> call, Throwable t) {
-                t.printStackTrace();
-                refreshLayout.setRefreshing(false);
-            }
-        });
-        /*ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).enqueue(new Callback<List<Groups>>() {
-            @Override
-            public void onResponse(Call<List<Groups>> call, Response<List<Groups>> response) {
-                if (response.isSuccessful()) {
-                    ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
-                    adapter.clear();
-                    for (Groups item :
-                            response.body()) {
-                        if(item.getNumber()!= null)
-                            adapter.add(item.getNumber());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Groups>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Ошибка сети поиска групп", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-        List<Groups> newGroups = null;
-        /*new Thread(() -> {
-            load();
-        }).start()*/
-        /*try {
-            newGroups = ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).execute().body();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        catch (RuntimeException e) {
-            e.printStackTrace();
-        }*/
-
-
-        /*ArrayAdapter<String> adapter = ((ArrayAdapter<String>) groups.getAdapter());
-        adapter.clear();
-        for (Groups item :
-                newGroups) {
-            if (item.getNumber() != null)
-                adapter.add(item.getNumber());
-        }*/
-
-        // TODO написать обновление данных для групп и списка студентов
-        //TODO в api проблемы при запросе давнных от имени Кирилла
-
-    }
-
     private void updateInitSpinners(List<Groups> newGroups) {
         if (groups.getSelectedItem() != null) {
             String mySelected = groups.getSelectedItem().toString();
@@ -323,6 +249,39 @@ public class StudentListFragment extends Fragment {
         groups.setSelection(0);
 
     }
+
+    private void UpdateStudentsList(int groupId) {
+        //TODO написать обновление данных для групп и списка студентов
+        // в api проблемы при запросе давнных от имени Кирилла
+        if(groups.getSelectedItem() == null) {
+            refreshLayout.setRefreshing(false);
+            return;
+        }
+        String selectedGroup = groups.getSelectedItem().toString();
+        Toast.makeText(requireContext(), selectedGroup, Toast.LENGTH_SHORT).show();
+        ApiService.getInstance().getApi().getStudentsByGroup(groupId).enqueue(new Callback<List<Persons>>() {
+            @Override
+            public void onResponse(Call<List<Persons>> call, Response<List<Persons>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listStudents.clear();
+                    for (Persons p :
+                            response.body()) {
+                        String FIO = p.getLastName() + p.getFirstName() + p.getMiddleName();
+                        listStudents.add(FIO);
+                    }
+                    studentListAdapter.notifyDataSetChanged();
+                    refreshLayout.setRefreshing(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Persons>> call, Throwable t) {
+                t.printStackTrace();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
     /*private void updateInitSpinners(){
 
         String mySelected = varSpinner.getSelectedItem().toString();

@@ -16,6 +16,7 @@ import com.example.curatorsttit.R;
 import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.FragmentDocumetsBinding;
 import com.example.curatorsttit.databinding.FragmentMainBinding;
+import com.example.curatorsttit.models.Persons;
 import com.example.curatorsttit.models.Users;
 import com.google.gson.annotations.SerializedName;
 
@@ -40,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -113,6 +115,8 @@ public class DocumentsFragment extends Fragment {
             try {
                 String filename = "Стипендиальная ведомость";
                 DocumentsCreator.getInstance().createDocumentStep(folderPath+"/"+filename+".xlsx");
+                //List<Persons> students = new ArrayList<Persons>();
+                DocumentsCreator.getInstance().updateDocStep(new ArrayList<Persons>(), folderPath + "/" + filename + ".xlsx");
                 Toast.makeText(requireContext(),"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
