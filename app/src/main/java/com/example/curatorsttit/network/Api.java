@@ -1,17 +1,14 @@
 package com.example.curatorsttit.network;
 
-import com.example.curatorsttit.models.Groups;
-import com.example.curatorsttit.models.Persons;
+import com.example.curatorsttit.models.Group;
+import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.models.Student;
 import com.example.curatorsttit.models.Users;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface Api {
@@ -21,9 +18,9 @@ public interface Api {
     @GET("/api/Users")
     Call<List<Users>> getAllUsers();
     @GET("/api/Persons")
-    Call<List<Persons>> getStudentsByGroup(@Query("groupId") int groupId);
+    Call<List<Person>> getStudentsByGroup(@Query("groupId") int groupId);
     @GET("/api/Groups")
-    Call<List<Groups>> getGroupsByCuratorId(@Query("userId") int userId);
+    Call<List<Group>> getGroupsByCuratorId(@Query("userId") int userId);
 
     @GET("/api/Users")
     Call<Users> auth(@Query("login") String login, @Query("passsword") String password);

@@ -61,7 +61,7 @@ public class StudentListViewAdapter extends BaseAdapter {
         if (view == null) {
             holder = new ViewHolder();
             //view = inflater.inflate(android.R.layout.simple_list_item_1, null);
-            view = inflater.inflate(R.layout.simple_list_item, null);
+            view = inflater.inflate(R.layout.student_list_item, null);
             // Locate the TextViews in listview_item.xml
             //holder.name = (TextView) view.findViewById(android.R.id.text1);
             holder.name = (TextView) view.findViewById(R.id.studentFIO);

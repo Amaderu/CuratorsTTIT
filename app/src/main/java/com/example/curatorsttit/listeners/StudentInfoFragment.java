@@ -32,38 +32,22 @@ import com.example.curatorsttit.R;
 import javax.xml.stream.events.Attribute;
 
 public class StudentInfoFragment extends Fragment {
-
-    Toolbar toolbar;
+    private int personID;
+    private Toolbar toolbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getArguments() !=  null)
+            personID = getArguments().getInt("personID", -1);
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        //test
-        //toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar,null));
-
-        //setSupportActionBar(toolbar);
-
         toolbar = (Toolbar) getView().findViewById(R.id.toolbar);//.findViewById(R.id.toolbar);
-
-        /*LinearLayout linLayout = new LinearLayout(getActivity().getBaseContext());
-        linLayout.setOrientation(LinearLayout.VERTICAL);
-        ViewGroup.LayoutParams linLayoutParam = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView textView = new TextView(getActivity().getBaseContext());
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
-        Spinner spinner = (Spinner)toolbar.findViewById(R.id.spinner_groups);*/
-
-        //textView.setText(String.format("Студент %s", spinner.getSelectedItem().toString()));
-        //bundle
-        //toolbar.removeViewAt(0);
-        //toolbar.addView(textView,linLayoutParam);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        //toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
+        //toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationIcon(androidx.appcompat.R.drawable.abc_ic_ab_back_material);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,47 +115,6 @@ public class StudentInfoFragment extends Fragment {
         //actionBar.setDisplayShowTitleEnabled(false);
     }
 
-    /*Не работает в фрагменте
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-        menu.clear();
-        menuInflater.inflate(R.menu.action_bar_edit, menu);
-
-        menu.findItem(R.id.edit).setOnMenuItemClickListener(menuItem -> {
-            menu.findItem(R.id.done).setVisible(true);
-            menu.findItem(R.id.cancel).setVisible(true);
-            menu.findItem(R.id.edit).setVisible(false);
-            canEdit(true);
-            return onOptionsItemSelected(menuItem);
-        });
-
-        menu.findItem(R.id.cancel).setOnMenuItemClickListener(menuItem -> {
-            menu.findItem(R.id.edit).setVisible(true);
-            menu.findItem(R.id.cancel).setVisible(false);
-            menu.findItem(R.id.done).setVisible(false);
-            canEdit(false);
-            return onOptionsItemSelected(menuItem);
-        });
-
-        menu.findItem(R.id.done).setOnMenuItemClickListener(menuItem -> {
-            menu.findItem(R.id.edit).setVisible(true);
-            menu.findItem(R.id.cancel).setVisible(false);
-            menu.findItem(R.id.done).setVisible(false);
-            canEdit(false);
-            return onOptionsItemSelected(menuItem);
-        });
-        super.onCreateOptionsMenu(menu, menuInflater);
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getActivity().onBackPressed();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
     void canEdit(boolean isEditable){
         RelativeLayout rootLayout = getView().findViewById(R.id.expandable);
         EditText snp,birth,years;
@@ -192,10 +135,15 @@ public class StudentInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_info, container, false);
+        View view =inflater.inflate(R.layout.fragment_student_info, container, false);
+        return view;
     }
     public void show(View view){
         Toast.makeText(getContext(), "Show more", Toast.LENGTH_SHORT).show();
+    }
+    //TODO написать загрузку/редактирование данных студента
+    private void loadStudentInfo(int personID){
+        Toast.makeText(requireContext(),String.valueOf(personID), Toast.LENGTH_SHORT);
     }
 
 }

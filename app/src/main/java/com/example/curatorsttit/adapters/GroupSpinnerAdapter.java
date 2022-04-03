@@ -5,29 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Filterable;
 import android.widget.TextView;
-import android.widget.ThemedSpinnerAdapter;
 
 
-import com.example.curatorsttit.models.Groups;
+import com.example.curatorsttit.models.Group;
 
 import java.util.List;
 
-public class GroupSpinnerAdapter extends ArrayAdapter<Groups> {
+public class GroupSpinnerAdapter extends ArrayAdapter<Group> {
 
     LayoutInflater inflater;
 
-    public GroupSpinnerAdapter(Activity context, int resouceId, int textviewId, List<Groups> list){
-        super(context,resouceId,textviewId,list);
-        inflater = context.getLayoutInflater();
+    public GroupSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<Group> list){
+        super(activity,resouceId,textviewId,list);
+        inflater = activity.getLayoutInflater();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Groups rowItem = getItem(position);
+        Group rowItem = getItem(position);
         View rowview = inflater.inflate(android.R.layout.simple_spinner_item,null,false);
         TextView txtTitle = (TextView) rowview.findViewById(android.R.id.text1);
         txtTitle.setText(rowItem.getNumber());

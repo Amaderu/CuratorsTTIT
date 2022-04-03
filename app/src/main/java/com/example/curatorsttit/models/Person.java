@@ -3,10 +3,22 @@ package com.example.curatorsttit.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Persons {
+public class Person {
 
     @SerializedName("Email")
     private String email;
+
+    //group number
+    @SerializedName("number")
+    private String group;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
 
     @SerializedName("FirstName")
     private String firstName;
@@ -24,12 +36,21 @@ public class Persons {
     @SerializedName("MiddleName")
     private String middleName;
 
-    public Persons(String lastName,String firstName, String middleName, String email, String phone) {
+    public Person(String lastName, String firstName, String middleName, String email, String phone) {
         this.email = email;
         this.firstName = firstName;
         this.phone = phone;
         this.lastName = lastName;
         this.middleName = middleName;
+    }
+
+    public Person(String lastName, String firstName, String middleName, String group) {
+        this.email = email;
+        this.firstName = firstName;
+        this.phone = phone;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.group = group;
     }
 
     public void setEmail(String email) {

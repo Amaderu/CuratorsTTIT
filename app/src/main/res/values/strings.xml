@@ -57,6 +57,8 @@
 
     <string-array name="frazes">
         <item>Лучший помощник куратора</item>
+        <item>Создание отчётов в пару нажатий</item>
+        <item>Данные всегда под рукой</item>
         <item>Вход</item>
     </string-array>
     <string name="sign_in">Войти в аккаунт</string>

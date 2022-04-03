@@ -1,4 +1,4 @@
-package com.example.curatorsttit.ui.login;
+package com.example.curatorsttit.ui.main;
 
 import android.content.Context;
 import android.content.SharedPreferences;

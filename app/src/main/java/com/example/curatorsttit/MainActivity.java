@@ -15,10 +15,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.StaticLayout;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -26,19 +23,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
-import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.ActivityMainBinding;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
 import com.example.curatorsttit.ui.documents.DocumentsFragment;
 import com.example.curatorsttit.ui.login.LoginFragment;
-import com.example.curatorsttit.ui.login.MainFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.curatorsttit.ui.main.MainFragment;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationHost {

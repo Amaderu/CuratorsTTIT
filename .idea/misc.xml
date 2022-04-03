@@ -3,10 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Amaderu/.gradle/caches/transforms-3/f791586eb8e3cddcf33fb36842d7675a/transformed/appcompat-1.4.1/res/drawable/abc_ic_ab_back_material.xml" value="0.209" />
+        <entry key="..\:/Users/Amaderu/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.2015625" />
+        <entry key="..\:/Users/Amaderu/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_item.xml" value="0.2015625" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/button_border.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/edit_selector.xml" value="0.209" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_arrow_back.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_documents.xml" value="0.209" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_progress.xml" value="0.2095" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/outline_picture_as_pdf_24.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/oval.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/point.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/spinn_bacg.xml" value="0.2095" />
@@ -23,7 +29,10 @@
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_student_list.xml" value="0.25" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/loading_dialog.xml" value="0.25" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/sign_in.xml" value="0.33" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/simple_list_item.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/slides_layout.xml" value="0.2015625" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/student_list_item.xml" value="0.25" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/toast_layout.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/toolbar.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/menu/action_bar_edit.xml" value="0.2015625" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/menu/dashboard.xml" value="0.2015625" />

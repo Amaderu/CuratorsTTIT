@@ -1,6 +1,5 @@
 package com.example.curatorsttit.ui.documents;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,34 +14,22 @@ import android.widget.Toast;
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.FragmentDocumetsBinding;
-import com.example.curatorsttit.databinding.FragmentMainBinding;
-import com.example.curatorsttit.models.Persons;
-import com.example.curatorsttit.models.Users;
-import com.google.gson.annotations.SerializedName;
+import com.example.curatorsttit.models.Person;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,7 +103,7 @@ public class DocumentsFragment extends Fragment {
                 String filename = "Стипендиальная ведомость";
                 DocumentsCreator.getInstance().createDocumentStep(folderPath+"/"+filename+".xlsx");
                 //List<Persons> students = new ArrayList<Persons>();
-                DocumentsCreator.getInstance().updateDocStep(new ArrayList<Persons>(), folderPath + "/" + filename + ".xlsx");
+                DocumentsCreator.getInstance().updateDocStep(new ArrayList<Person>(), folderPath + "/" + filename + ".xlsx");
                 Toast.makeText(requireContext(),"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();

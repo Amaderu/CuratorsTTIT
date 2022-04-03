@@ -1,19 +1,14 @@
 package com.example.curatorsttit.common;
 
-import com.example.curatorsttit.models.Persons;
-import com.example.curatorsttit.network.ApiService;
+import com.example.curatorsttit.models.Person;
 
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.BorderExtent;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellRange;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FontFamily;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -243,7 +238,7 @@ public class DocumentsCreator {
         wb.close();
     }
 
-    public void updateDocStep(List<Persons> students, String filePath) throws Exception {
+    public void updateDocStep(List<Person> students, String filePath) throws Exception {
         Workbook workbook = null;
         try{
             FileInputStream inputStream = new FileInputStream(new File(filePath));
@@ -255,11 +250,11 @@ public class DocumentsCreator {
         }
         Sheet sheet = workbook.getSheetAt(0);
         //типо заполенине данными
-        List<Persons> persons = new ArrayList<Persons>(students);
-        persons.add(new Persons("Алфимова","Светлана","Александровна","afdas@gmail","+745646"));
-        persons.add(new Persons("Шарапова","Наталья","Александровна","gagga1@gmail","+76641631"));
+        List<Person> persons = new ArrayList<Person>(students);
+        persons.add(new Person("Алфимова","Светлана","Александровна","afdas@gmail","+745646"));
+        persons.add(new Person("Шарапова","Наталья","Александровна","gagga1@gmail","+76641631"));
         int counter = 5;
-        for(Persons p : persons)
+        for(Person p : persons)
         {
             sheet.getRow(counter++).getCell(1).setCellValue(p.getFIO());
         }

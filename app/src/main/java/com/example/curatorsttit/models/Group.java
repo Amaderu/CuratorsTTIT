@@ -1,8 +1,10 @@
 package com.example.curatorsttit.models;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Groups {
+public class Group {
     @SerializedName("Id")
     int id;
     @SerializedName("Number")
@@ -10,7 +12,7 @@ public class Groups {
     @SerializedName("Speciality")
     String speciality;
 
-    public Groups(int id, String number, String speciality) {
+    public Group(int id, String number, String speciality) {
         this.id = id;
         this.number = number;
         this.speciality = speciality;
@@ -38,5 +40,11 @@ public class Groups {
 
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.number;
     }
 }
