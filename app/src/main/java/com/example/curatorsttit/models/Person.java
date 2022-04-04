@@ -3,6 +3,8 @@ package com.example.curatorsttit.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class Person {
 
     @SerializedName("Email")
@@ -104,4 +106,13 @@ public class Person {
     public String getMiddleName() {
         return middleName;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id && Objects.equals(email, person.email) && Objects.equals(group, person.group) && Objects.equals(firstName, person.firstName) && Objects.equals(phone, person.phone) && Objects.equals(lastName, person.lastName) && Objects.equals(middleName, person.middleName);
+    }
+
 }

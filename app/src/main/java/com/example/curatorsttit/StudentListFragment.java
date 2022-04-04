@@ -40,6 +40,7 @@ import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.login.LoginFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -372,6 +373,7 @@ public class StudentListFragment extends Fragment {
     }
 
     // FixMe  доработать прослушиватель нажатий на элемент
+    //  при обновлении данных приходят новые объекты и equal не подходит к сравнению
     private void initRecyclerView(){
         studentRecAdapter = new StudentsRecViewAdapter(listStudents2, new StudentsRecViewAdapter.onStudentListener() {
             @Override
@@ -389,6 +391,8 @@ public class StudentListFragment extends Fragment {
                 m.loadFragment(toFragment);
             }
         });
+        //когда размер элементов списка одинаковый (высота/ширина) - true.
+        studentsList.setHasFixedSize(false);
         studentsList.setAdapter(studentRecAdapter);
     }
 }
