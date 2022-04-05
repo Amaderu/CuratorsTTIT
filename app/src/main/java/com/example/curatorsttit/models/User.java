@@ -2,7 +2,7 @@ package com.example.curatorsttit.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Users {
+public class User implements com.example.curatorsttit.models.interfaces.User {
     @SerializedName("Id")
     int id;
     @SerializedName("PersonId")
@@ -14,7 +14,7 @@ public class Users {
     @SerializedName("Password")
     String password;
 
-    public Users(int id, int personId, int roleId, String login, String password) {
+    public User(int id, int personId, int roleId, String login, String password) {
         this.id = id;
         this.personId = personId;
         this.roleId = roleId;

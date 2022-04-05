@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.icu.text.Transliterator;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,13 +37,16 @@ import android.widget.Toast;
 import com.example.curatorsttit.adapters.GroupSpinnerAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
 import com.example.curatorsttit.adapters.StudentsRecViewAdapter;
+import com.example.curatorsttit.common.DataGenerator;
 import com.example.curatorsttit.models.Group;
 import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.login.LoginFragment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 import retrofit2.Call;
@@ -85,7 +91,6 @@ public class StudentListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        initRefreshLayout();
         //Toolbar toolbar;
         //toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //ActionBar bar = (ActionBar) getActivity().getActionBar();
@@ -108,9 +113,11 @@ public class StudentListFragment extends Fragment {
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);*/
         //namesList = view.findViewById(R.id.lvMain);
+        refreshLayout = view.findViewById(R.id.refresh);
         studentsList = view.findViewById(R.id.recyclerStudents);
         //Адаптер для студентов
         initRecyclerView();
+        initRefreshLayout();
         /*studentListAdapter = new StudentListViewAdapter(getContext(), listStudents);
         //namesList.setAdapter(studentListAdapter);
         //переделка на recyclerView
@@ -155,6 +162,7 @@ public class StudentListFragment extends Fragment {
                 logout();
             }
         });
+        mockLoadStudents();
         return view;
     }
 
@@ -209,32 +217,15 @@ public class StudentListFragment extends Fragment {
 
 
     private void mockLoadCuratorGroup() {
-        List<Group> newGroups = new ArrayList<Group>();
-        newGroups.add(new Group(1,"682","Специалисты Инф.Систем"));
-        newGroups.add(new Group(2,"482","Web"));
+        List<Group> newGroups = DataGenerator.mockGenerateGroup();
         updateGroupSpinner(newGroups);
     }
     private void mockLoadStudents() {
-        String[] students = getResources().getStringArray(R.array.names);
-        listStudents.clear();
-        listStudents2.clear();
-        for (String wp : students) {
-            listStudents.add(wp);
-            String[] fio = wp.split(" ");
-            Person person = new Person(
-                    fio[0],
-                    fio[1],
-                    fio[2],
-                    "682"
-            );
-            listStudents2.add(person);
-        }
-        listStudents2.add(new Person("Алфимова","Светлана","Александровна","afdas@gmail","+745646"));
-        listStudents2.add(new Person("Шарапова","Наталья","Александровна","gagga1@gmail","+76641631"));
+        List<Person> newStudents = DataGenerator.mockGenerateStudents((Group)groups.getSelectedItem());
+        /*listStudents.clear();
+        listStudents2.clear();*/
         refreshLayout.setRefreshing(false);
-        List<Person> newPers = new ArrayList<Person>();
-        newPers.addAll(listStudents2);
-        updateStudentRecycler(newPers);
+        updateStudentRecycler(newStudents);
     }
     private void mockLoadStudentsStringAdapter(int groupId){
         ApiService.getInstance().getApi().getStudentsByGroup(groupId).enqueue(new Callback<List<Person>>() {
@@ -244,7 +235,7 @@ public class StudentListFragment extends Fragment {
                     listStudents.clear();
                     for (Person p :
                             response.body()) {
-                        String FIO = p.getLastName() + p.getFirstName() + p.getMiddleName();
+                        String FIO = p.getSurname() + p.getName() + p.getPatronymic();
                         listStudents.add(FIO);
                     }
                     studentListAdapter.notifyDataSetChanged();
@@ -285,8 +276,8 @@ public class StudentListFragment extends Fragment {
     private void updateStudentRecycler(List<Person> persons) {
         listStudents2 = persons;
         StudentsRecViewAdapter adapter =  (StudentsRecViewAdapter)studentsList.getAdapter();
+        adapter.updateStudentList(persons);
         Toast.makeText(requireContext(),String.valueOf(adapter.getAllItemCount()), Toast.LENGTH_LONG).show();
-        adapter.notifyDataSetChanged();
     }
 
     private void updateStudentsList(int groupId) {
@@ -359,7 +350,6 @@ public class StudentListFragment extends Fragment {
     }
 
     private void initRefreshLayout(){
-        refreshLayout = getView().findViewById(R.id.refresh);
         refreshLayout.setOnChildScrollUpCallback(new SwipeRefreshLayout.OnChildScrollUpCallback() {
             @Override
             public boolean canChildScrollUp(@NonNull SwipeRefreshLayout parent, @Nullable View child) {
@@ -378,21 +368,31 @@ public class StudentListFragment extends Fragment {
         studentRecAdapter = new StudentsRecViewAdapter(listStudents2, new StudentsRecViewAdapter.onStudentListener() {
             @Override
             public void onStudentClick(Person person) {
-                Log.d("RecyclerView", "onStudentClick: "+person.getFIO());
-                MainActivity m = ((MainActivity)requireActivity());
-                Fragment toFragment = m.whichFragment(R.id.fragment_student_info);
-                Bundle bundle = new Bundle();
-                Person selectPerson = listStudents2.stream()
-                        .filter(searchPerson -> searchPerson.equals(person))
-                        .findFirst()
-                        .orElse(null);
-                bundle.putInt("personID", selectPerson.getId());
-                toFragment.setArguments(bundle);
-                m.loadFragment(toFragment);
+                navigateToStudentInfo(person);
             }
         });
         //когда размер элементов списка одинаковый (высота/ширина) - true.
         studentsList.setHasFixedSize(false);
         studentsList.setAdapter(studentRecAdapter);
+    }
+
+    // FixMe  доработать передачу данных пользователя
+    void navigateToStudentInfo(Person person){
+        Log.d("RecyclerView", "onStudentClick: "+person.getSNP());
+        MainActivity m = ((MainActivity)requireActivity());
+        Fragment toFragment = m.whichFragment(R.id.fragment_student_info);
+        Bundle bundle = new Bundle();
+        /*Person selectPerson = listStudents2.stream()
+                .filter(searchPerson -> searchPerson.equals(person))
+                .findFirst()
+                .orElse(null);*/
+        bundle.putInt("personID", person.getId());
+
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        String personParce = gson.toJson(person);
+        bundle.putString("person", personParce);
+        toFragment.setArguments(bundle);
+        m.loadFragment(toFragment);
     }
 }

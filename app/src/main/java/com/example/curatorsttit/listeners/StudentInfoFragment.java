@@ -1,6 +1,8 @@
 package com.example.curatorsttit.listeners;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,17 +30,27 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
+import com.example.curatorsttit.databinding.FragmentLoginBinding;
+import com.example.curatorsttit.databinding.FragmentStudentInfoBinding;
+import com.example.curatorsttit.models.Person;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.xml.stream.events.Attribute;
 
 public class StudentInfoFragment extends Fragment {
     private int personID;
     private Toolbar toolbar;
+    private Person person;
+    FragmentStudentInfoBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() !=  null)
             personID = getArguments().getInt("personID", -1);
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        person = gson.fromJson( getArguments().getString("person"),Person.class);
         setHasOptionsMenu(true);
     }
 
@@ -135,7 +147,20 @@ public class StudentInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_student_info, container, false);
+        binding = FragmentStudentInfoBinding.inflate(inflater, container, false);
+        //View view =inflater.inflate(R.layout.fragment_student_info, container, false);
+        View view = binding.getRoot();
+        binding.studentPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                String number =((EditText)v).getText().toString();
+                callIntent.setData(Uri.parse("tel:"+number));
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(callIntent);
+            }
+        });
+        loadStudentInfo(person);
         return view;
     }
     public void show(View view){
@@ -144,6 +169,12 @@ public class StudentInfoFragment extends Fragment {
     //TODO написать загрузку/редактирование данных студента
     private void loadStudentInfo(int personID){
         Toast.makeText(requireContext(),String.valueOf(personID), Toast.LENGTH_SHORT);
+    }
+    private void loadStudentInfo(Person person){
+        binding.studentSNP.setText(person.getSNP());
+        binding.studentEmail.setText(person.getEmail());
+        binding.studentPhone.setText(person.getPhone());
+        Toast.makeText(requireContext(),String.valueOf(person.getId()), Toast.LENGTH_SHORT);
     }
 
 }

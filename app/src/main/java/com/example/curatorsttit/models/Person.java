@@ -3,15 +3,12 @@ package com.example.curatorsttit.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Person {
-
-    @SerializedName("Email")
-    private String email;
-
+public class Person implements com.example.curatorsttit.models.interfaces.Person {
     //group number
-    @SerializedName("number")
+    @SerializedName("Number")
     private String group;
 
     public String getGroup() {
@@ -21,6 +18,9 @@ public class Person {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    @SerializedName("Email")
+    private String email;
 
     @SerializedName("FirstName")
     private String firstName;
@@ -46,13 +46,22 @@ public class Person {
         this.middleName = middleName;
     }
 
-    public Person(String lastName, String firstName, String middleName, String group) {
+    public Person(String lastName, String firstName, String middleName, String group, String email, String phone) {
         this.email = email;
         this.firstName = firstName;
         this.phone = phone;
         this.lastName = lastName;
         this.middleName = middleName;
         this.group = group;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 
     public void setEmail(String email) {
@@ -63,15 +72,17 @@ public class Person {
         return email;
     }
 
-    public void setFirstName(String firstName) {
+    public void setName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getFirstName() {
+    @Override
+    public String getName() {
         return firstName;
     }
 
-    public String getFIO() {
+    @Override
+    public String getSNP() {
         return lastName + " " + firstName + " " + middleName;
     }
 
@@ -83,27 +94,20 @@ public class Person {
         return phone;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setLastName(String lastName) {
+    public void setSurname(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getLastName() {
+    public String getSurname() {
         return lastName;
     }
 
-    public void setMiddleName(String middleName) {
+    public void setPatronymic(String middleName) {
         this.middleName = middleName;
     }
 
-    public String getMiddleName() {
+    @Override
+    public String getPatronymic() {
         return middleName;
     }
 

@@ -1,5 +1,7 @@
 package com.example.curatorsttit.common;
 
+import android.annotation.SuppressLint;
+
 import com.example.curatorsttit.models.Person;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -67,7 +69,7 @@ public class DocumentsCreator {
         defaultFont.setBold(true);
         return defaultFont;
     }
-
+    @SuppressLint("MissingPermission")
     public void createDocumentStep(String filePath) throws Exception {
         Workbook wb = new XSSFWorkbook(XSSFWorkbookType.XLSX); //or new HSSFWorkbook();
         Sheet sheet = wb.createSheet("Лист1");
@@ -237,7 +239,7 @@ public class DocumentsCreator {
         }
         wb.close();
     }
-
+    @SuppressLint("MissingPermission")
     public void updateDocStep(List<Person> students, String filePath) throws Exception {
         Workbook workbook = null;
         try{
@@ -256,7 +258,7 @@ public class DocumentsCreator {
         int counter = 5;
         for(Person p : persons)
         {
-            sheet.getRow(counter++).getCell(1).setCellValue(p.getFIO());
+            sheet.getRow(counter++).getCell(1).setCellValue(p.getSNP());
         }
         try (OutputStream outputStream = new FileOutputStream(filePath)) {
             workbook.write(outputStream);

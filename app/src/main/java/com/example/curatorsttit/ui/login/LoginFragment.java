@@ -22,7 +22,7 @@ import androidx.security.crypto.MasterKeys;
 import com.example.curatorsttit.NavigationHost;
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.databinding.FragmentLoginBinding;
-import com.example.curatorsttit.models.Users;
+import com.example.curatorsttit.models.User;
 import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.main.MainFragment;
 
@@ -209,9 +209,9 @@ public class LoginFragment extends Fragment {
     }
 
     private void getUser(String username, String password) {
-        ApiService.getInstance().getApi().auth(username, password).enqueue(new Callback<Users>() {
+        ApiService.getInstance().getApi().auth(username, password).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     Log.d("Authorize response", "onResponse: запрос был успешным!");
                     reportAuth("Вы успешно авторизированны");
@@ -238,7 +238,7 @@ public class LoginFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Users> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.d("Authorize response", "onFailure: +");
                 Toast.makeText(requireContext(), "Произошла ошибка", Toast.LENGTH_LONG).show();
                 binding.expandElements.setVisibility(View.VISIBLE);

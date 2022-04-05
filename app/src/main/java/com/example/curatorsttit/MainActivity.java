@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(binding.getRoot());
         requestPermissionsIfNecessary(new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CALL_PHONE
         });
         String username = getPreferences(Context.MODE_PRIVATE).getString(getString(R.string.user_key), null);
         int userID = getPreferences(Context.MODE_PRIVATE).getInt("CURATOR_ID", -1);

@@ -3,7 +3,7 @@ package com.example.curatorsttit.network;
 import com.example.curatorsttit.models.Group;
 import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.models.Student;
-import com.example.curatorsttit.models.Users;
+import com.example.curatorsttit.models.User;
 
 import java.util.List;
 
@@ -16,14 +16,14 @@ public interface Api {
     Call<List<Student>> getStudentByGroupId(@Query("idGroup") int id);
 
     @GET("/api/Users")
-    Call<List<Users>> getAllUsers();
+    Call<List<User>> getAllUsers();
     @GET("/api/Persons")
     Call<List<Person>> getStudentsByGroup(@Query("groupId") int groupId);
     @GET("/api/Groups")
     Call<List<Group>> getGroupsByCuratorId(@Query("userId") int userId);
 
     @GET("/api/Users")
-    Call<Users> auth(@Query("login") String login, @Query("passsword") String password);
+    Call<User> auth(@Query("login") String login, @Query("passsword") String password);
 
     /*
     @GET("/quotes")

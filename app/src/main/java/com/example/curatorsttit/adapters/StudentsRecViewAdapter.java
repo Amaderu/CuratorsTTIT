@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class StudentsRecViewAdapter extends RecyclerView.Adapter<StudentsRecViewAdapter.StudentsViewHolder> {
-    private static final String TWITTER_RESPONSE_FORMAT="EEE MMM dd HH:mm:ss ZZZZZ yyyy"; // Thu Oct 26 07:31:08 +0000 2017
-    private static final String MONTH_DAY_FORMAT = "MMM d"; // Oct 26
     private int groupVisibility = View.INVISIBLE;
     private onStudentListener mListener;
 
@@ -54,16 +52,19 @@ public class StudentsRecViewAdapter extends RecyclerView.Adapter<StudentsRecView
         //Аналог
         // holder.group.setText(studentsList.get(position).getFIO());
         Log.d("StudentsRecViewAdapter -> ", "onBindViewHolder: " + position);
-        holder.bind(arraylist.get(position));
+        holder.name.setText(arraylist.get(position).getSNP());
+        holder.group.setText(arraylist.get(position).getGroup());
+        holder.group.setVisibility(groupVisibility);
+        //holder.bind(arraylist.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return arraylist.size();
+        return arraylist == null ? 0 : arraylist.size();
     }
 
     public int getAllItemCount() {
-        return studentsList.size();
+        return studentsList == null ? 0 : studentsList.size();
     }
 
     public void setItems(Collection<Person> students) {
@@ -78,6 +79,13 @@ public class StudentsRecViewAdapter extends RecyclerView.Adapter<StudentsRecView
         studentsList.clear();
         arraylist.clear();
         notifyItemRangeRemoved(0,oldCount);
+    }
+    public void updateStudentList(Collection<Person> newList) {
+        studentsList.clear();
+        arraylist.clear();
+        studentsList.addAll(newList);
+        arraylist.addAll(studentsList);
+        this.notifyDataSetChanged();
     }
 
     class StudentsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -101,7 +109,7 @@ public class StudentsRecViewAdapter extends RecyclerView.Adapter<StudentsRecView
         }
 
         public void bind(Person person) {
-            name.setText(person.getFIO());
+            name.setText(person.getSNP());
             group.setText(person.getGroup());
             group.setVisibility(groupVisibility);
             //group.setVisibility(group.getVisibility() != View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
@@ -121,7 +129,7 @@ public class StudentsRecViewAdapter extends RecyclerView.Adapter<StudentsRecView
             arraylist.addAll(studentsList);
         } else {
             for (Person person : studentsList) {
-                if (person.getFIO().toLowerCase(Locale.getDefault()).contains(charText)) {
+                if (person.getSNP().toLowerCase(Locale.getDefault()).contains(charText)) {
                     arraylist.add(person);
                 }
             }

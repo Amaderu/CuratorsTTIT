@@ -66,7 +66,7 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -120,6 +120,49 @@
                     android:hint="20"
                     android:inputType="numberDecimal"
                     android:maxLength="2" />
+
+                <TextView
+                    android:id="@+id/textViewDescEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentBirth"
+                    android:layout_alignLeft="@id/textView3"
+                    android:text="Email:" />
+
+                <EditText
+                    android:id="@+id/studentEmail"
+                    style="EditText.Editable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewDescEmail"
+                    android:layout_alignLeft="@id/textViewDescEmail"
+                    android:backgroundTint="@color/transparent"
+                    android:enabled="false"
+                    android:hint="ivan@mail.com"
+                    android:inputType="textWebEmailAddress"
+                    tools:text="adfasf" />
+
+                <TextView
+                    android:id="@+id/textViewDescPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/studentEmail"
+                    android:layout_alignLeft="@id/textView3"
+                    android:text="Телефон:" />
+
+                <EditText
+                    android:id="@+id/studentPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textViewDescPhone"
+                    android:layout_alignLeft="@id/textViewDescPhone"
+                    android:autoLink="phone"
+                    android:backgroundTint="@color/transparent"
+                    android:inputType="phone"
+                    android:focusable="false"
+                    android:linksClickable="true"
+                    android:text="+7 999 999 99 99"
+                    android:textColorLink="@color/blue_500" />
 
             </RelativeLayout>
 
