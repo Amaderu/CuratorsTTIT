@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/caretaker"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/careSNP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="ФИО"
+        android:inputType="textMultiLine"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Напу Амо Хала Она Она Анека Вехи Вехи Она Хивеа Нена Вава Кехо Онка Кахе Хеа Леке Еа Она Ней Нана Ниа Кеко Оа Ога Ван Ика Ванао"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView3Number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Телефон:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/careSNP" />
+
+    <EditText
+        android:id="@+id/FatherNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/textView3Number"
+        android:enabled="false"
+        android:hint="+7 (999) 999 99 99"
+        tools:text="+7 (999) 999 99 99"
+        android:autoLink="phone"
+        android:linksClickable="true"
+        android:inputType="phone"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView3Number"
+        app:layout_constraintTop_toTopOf="@+id/textView3Number" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

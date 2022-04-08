@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class Person implements com.example.curatorsttit.models.interfaces.Person {
     //group number
+    @Expose(serialize = false)
     @SerializedName("Number")
     private String group;
 

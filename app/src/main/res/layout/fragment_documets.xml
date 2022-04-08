@@ -1,20 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_documents"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_documents"
     android:background="@color/grey_100"
     tools:context=".ui.documents.DocumentsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/document"
-        android:padding="20dp"
         style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/scholarship_statement_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/black"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Сгенерировать документ " />
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toStartOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/document2"
+        style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/svod_info_group_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/document" />
+    <TextView
+        android:id="@+id/document3"
+        style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/curator_report_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/document2" />
+
+    <TextView
+        android:id="@+id/document4"
+        style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/month_report_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/document3" />
+
+    <TextView
+        android:id="@+id/document5"
+        style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/month_plan_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/document4" />
+    <TextView
+        android:id="@+id/document6"
+        style="@style/TextView.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:text="@string/year_plan_doc"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@id/document5" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

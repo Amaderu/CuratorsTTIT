@@ -1,5 +1,9 @@
 package com.example.curatorsttit.network;
 
+import com.example.curatorsttit.common.DateConverter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.lang.reflect.Array;
 
 import okhttp3.OkHttpClient;
@@ -12,8 +16,10 @@ public class ApiService {
     //private static final String BASE_URL = "http://localhost:4119/api/";
     //String[] array = new String[]{"http://192.168.13.183:4119/api/", "http://192.168.13.183:4119/user19/api/"};
     //private static final String BASE_URL = "http://192.168.13.183:4119/api/";
-    private static final String BASE_URL = "http://192.168.13.183:4119/user19/";
-    //private static final String BASE_URL = "http://192.168.1.207:5000/";
+    //private static final String BASE_URL = "http://192.168.13.183:4119/user19/";
+    //private static final String BASE_URL = "http://172.20.176.1:52818/";
+    //private static final String BASE_URL = "http:127.0.0.1:52818/";
+    private static final String BASE_URL = "http://192.168.43.65:52818/";
     private Retrofit mRetrofit;
 
     public static ApiService getInstance() {
@@ -31,9 +37,10 @@ public class ApiService {
                 .addInterceptor(interceptor);
 
         //GsonConverterFactory factory = new Gson().;
+        Gson gson = new GsonBuilder().setDateFormat(DateConverter.DATE_TIME_MS_SQL).create();
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client.build())
                 .build();
     }

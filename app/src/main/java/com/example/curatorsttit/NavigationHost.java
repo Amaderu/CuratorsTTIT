@@ -12,4 +12,5 @@ public interface NavigationHost {
      * stack to make this navigation reversible.
      */
     void navigateTo(Fragment fragment, boolean addToBackstack);
+    void openActivivty(Fragment fragment,boolean addToBackstack);
 }

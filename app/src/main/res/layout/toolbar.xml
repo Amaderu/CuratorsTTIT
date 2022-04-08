@@ -47,7 +47,8 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/spinn_bacg"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                tools:entries="@array/groups"/>
 
         </LinearLayout>
 

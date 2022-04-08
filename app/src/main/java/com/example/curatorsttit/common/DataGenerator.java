@@ -8,10 +8,16 @@ import com.example.curatorsttit.R;
 import com.example.curatorsttit.data.local.entity.PersonEntity;
 import com.example.curatorsttit.data.local.entity.RoleEntity;
 import com.example.curatorsttit.data.local.entity.UserEntity;
+import com.example.curatorsttit.models.Addresses;
 import com.example.curatorsttit.models.Group;
+import com.example.curatorsttit.models.Passport;
 import com.example.curatorsttit.models.Person;
+import com.example.curatorsttit.models.StudentData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -164,9 +170,48 @@ public class DataGenerator {
 
     public static List<Group> mockGenerateGroup() {
         List<Group> listGroup = new ArrayList<Group>();
-        listGroup.add(new Group(1,"682","Специалисты Инф.Систем"));
+        listGroup.add(new Group(1,"602","Специалисты Инф.Систем"));
         listGroup.add(new Group(2,"482","Web"));
         return listGroup;
+    }
+
+    public static StudentData mockGetStudent(Person studentIn){
+            Person person = studentIn;
+
+            Person careTaker = new Person("Павлова", "Ольга", "Александровна","olgapavlova@mail.ru","+79131596648");
+            person.setId(2);
+            List<Person> perens = new ArrayList<Person>();
+            perens.add(careTaker);
+            Addresses addresses = new Addresses();
+            addresses.setId(1);
+            addresses.setPostalCode("123123");
+            addresses.setRegion("70");
+            addresses.setStreet("Котовского");
+            addresses.setHouse("18");
+            addresses.setFlat("234");
+            addresses.setCity("Томск");
+            addresses.setCountry("Россия");
+            Date date = null;
+            try {
+                date = new SimpleDateFormat(DateConverter.DATE_TIME_MS_SQL).parse("2002-02-05T00:00:00");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Passport passport = new Passport();
+            passport.setId(1);
+            passport.setSeries("1324");
+            passport.setNumber("123456");
+            passport.setIssueDate("2016-02-12T00:00:00");
+            passport.setIssuingAuthority("УФМС РФ Томск");
+            passport.setSubdivisionCode("12545");
+            passport.setRegistrationAddressId(1);
+
+            StudentData data = new StudentData().setDormitory(true).setiTN("345345").setPassport(passport).setMedPolicy("123123123")
+                    .setEducationStatus("Учится").setGroupNumber("682").setInsurPolicy("234234234").setPerson(person)
+                    .setPerens(perens)
+                    .setBirthday(date)
+                    .setRegistrationAddress(addresses).setResidentialAddress(addresses);
+            return data;
     }
     
     

@@ -52,8 +52,8 @@
     </string-array>
 
 
-    <string name="prompt_login">Login</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_login">Логин</string>
+    <string name="prompt_password">Пароль</string>
 
     <string-array name="frazes">
         <item>Лучший помощник куратора</item>
@@ -64,4 +64,10 @@
     <string name="sign_in">Войти в аккаунт</string>
     <string name="text_delete">удалить</string>
     <string name="text_close">закрыть</string>
+    <string name="scholarship_statement_doc">Стипендиальная ведомость</string>
+    <string name="svod_info_group_doc">Сводная информация по группе</string>
+    <string name="curator_report_doc">Отчет куратора за семестр</string>
+    <string name="month_report_doc">Ежемесячный отчет по воспитательной работе в группе</string>
+    <string name="month_plan_doc">Ежемесячный план воспитательной работы в группе</string>
+    <string name="year_plan_doc">Календарный план куратора на год</string>
 </resources>

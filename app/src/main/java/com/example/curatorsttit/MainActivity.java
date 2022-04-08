@@ -26,15 +26,26 @@ import android.widget.SearchView;
 
 import com.example.curatorsttit.adapters.OnSlideAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
+import com.example.curatorsttit.common.DateConverter;
 import com.example.curatorsttit.databinding.ActivityMainBinding;
 import com.example.curatorsttit.listeners.StudentInfoFragment;
+import com.example.curatorsttit.models.Addresses;
+import com.example.curatorsttit.models.Passport;
+import com.example.curatorsttit.models.Person;
+import com.example.curatorsttit.models.StudentData;
 import com.example.curatorsttit.ui.documents.DocumentsFragment;
 import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.main.MainFragment;
+import com.google.gson.annotations.SerializedName;
+import com.microsoft.schemas.vml.CTShapetype;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationHost {
+public class MainActivity extends AppCompatActivity implements NavigationHost {
     ActionBar actionBar;
     Toolbar toolbar;
     ViewPager viewPager;
@@ -53,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
+        //System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.StreamReaderImpl");
     }
 
 
@@ -111,36 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             toFragment = new LoginFragment();
             navigateTo(toFragment, false);
         }
-
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        // Get ActionBar
-        //Activity.
-        //actionBar = getSupportActionBar();
-        // Set below attributes to add logo in ActionBar.
-        //actionBar.setDisplayShowHomeEnabled(true);
-        //actionBar.setTitle("");
-        //toolbar = (Toolbar) Toolbar.inflate(getApplicationContext(),R.layout.toolbar,findViewById(R.id.toolbar));
-        //loadFragment(whichFragment(R.id.fragment_login));
-
-
     }
-    /*private static final int READ_STORAGE_PERMISSION_REQUEST_CODE = 41;
-    public boolean checkPermissionForReadExtertalStorage() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int result = getBaseContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE);
-            return result == PackageManager.PERMISSION_GRANTED;
-        }
-        return false;
-    }
-    public void requestPermissionForReadExtertalStorage() throws Exception {
-        try {
-            AppCompatActivity.requestPermissions(getBaseContext(), new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
-                    READ_STORAGE_PERMISSION_REQUEST_CODE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }*/
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 41;
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
@@ -179,35 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }*/
 
-    }
-
-    @Override
-    public void onClick(View view) {
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        Fragment fragment;
-        //SecondFragment fragment = new SecondFragment();
-        //if(CURRENT_FRAGMENT == LAST_FRAGMENT)
-        switch (CURRENT_FRAGMENT) {
-            case R.id.fragment_main:
-                CURRENT_FRAGMENT = R.id.fragment_main;
-                fragment = new MainFragment();
-                break;
-            case R.id.fragment_student_list:
-                CURRENT_FRAGMENT = R.id.fragment_student_list;
-                fragment = new StudentListFragment();
-                break;
-            case R.id.fragment_student_info:
-                CURRENT_FRAGMENT = R.id.fragment_student_info;
-                fragment = new StudentInfoFragment();
-                break;
-            default:
-                CURRENT_FRAGMENT = R.id.fragment_login;
-                fragment = new LoginFragment();
-                break;
-        }
-        loadFragment(fragment);
-        //whichFragment(R.id.fragment_second);
-        //NumberFormat.getInstance().format(123121L);
     }
 
 
@@ -301,4 +255,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         transaction.commit();
     }
+    @Override
+    public void openActivivty(Fragment fragment, boolean addToBackstack) {
+        if (fragment == null) return;
+        FragmentTransaction transaction =
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.container, fragment);
+
+        if (addToBackstack) {
+            transaction.addToBackStack(fragment.getTag());
+        }
+
+        transaction.commit();
+    }
+
 }

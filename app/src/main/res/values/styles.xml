@@ -6,7 +6,6 @@
         <item name="android:textColor">?android:textColor</item>
         <item name="android:dropDownVerticalOffset">50dp</item>
         <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:entries">@array/groups</item>
     </style>
     <style name="TextView" parent="Widget.MaterialComponents.TextView">
         <!--<item name="android:fontFamily">@font/inter_val</item>-->

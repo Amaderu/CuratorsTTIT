@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="Общая информация"
+        app:cardCornerRadius="10dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/commonInf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorOnSecondary"
+            android:onClick="show"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp"
+            android:text="Общая информация▼"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/expandable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ФИО:" />
+
+            <EditText
+                android:id="@+id/studentSNP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView2"
+                android:hint="ФИО" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentSNP"
+                android:text="Дата рождения:" />
+
+            <EditText
+                android:id="@+id/studentBirth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView3"
+                android:hint="01/01/1990"
+                android:maxLength="10"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentSNP"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/textView3"
+                android:text="Полных лет:" />
+
+            <EditText
+                android:id="@+id/studentYears"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView3"
+                android:layout_alignStart="@id/textView4"
+                android:hint="20"
+                android:maxLength="2" />
+
+            <TextView
+                android:id="@+id/textViewDescEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentBirth"
+                android:layout_alignLeft="@id/textView3"
+                android:text="Email:" />
+
+            <EditText
+                android:id="@+id/studentEmail"
+                style="EditText.Editable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewDescEmail"
+                android:layout_alignLeft="@id/textViewDescEmail"
+                android:backgroundTint="@color/transparent"
+                android:hint="ivan@mail.com" />
+
+            <TextView
+                android:id="@+id/textViewDescPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentEmail"
+                android:layout_alignLeft="@id/textView3"
+                android:text="Телефон:" />
+
+            <EditText
+                android:id="@+id/studentPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewDescPhone"
+                android:layout_alignLeft="@id/textViewDescPhone"
+                android:backgroundTint="@color/transparent"
+                android:hint="+7 999 999 99 99" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

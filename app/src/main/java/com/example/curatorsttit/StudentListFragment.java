@@ -32,7 +32,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.curatorsttit.adapters.GroupSpinnerAdapter;
 import com.example.curatorsttit.adapters.StudentListViewAdapter;
@@ -144,7 +143,7 @@ public class StudentListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int myPosition, long myID) {
                 Log.i("renderSpinner -> ", "onItemSelected: " + myPosition + "/" + myID);
-                String selectedGroup = ((TextView) parentView.getChildAt(0)).getText().toString();
+                //String selectedGroup = ((TextView) parentView.getChildAt(0)).getText().toString();
                 updateStudentsList(arraySpinnerGroup2.get(myPosition).getId());
             }
 
@@ -162,7 +161,7 @@ public class StudentListFragment extends Fragment {
                 logout();
             }
         });
-        mockLoadStudents();
+        //mockLoadStudents();
         return view;
     }
 
@@ -277,7 +276,7 @@ public class StudentListFragment extends Fragment {
         listStudents2 = persons;
         StudentsRecViewAdapter adapter =  (StudentsRecViewAdapter)studentsList.getAdapter();
         adapter.updateStudentList(persons);
-        Toast.makeText(requireContext(),String.valueOf(adapter.getAllItemCount()), Toast.LENGTH_LONG).show();
+        Log.i("RecyclerView", "updateStudentRecycler: "+String.valueOf(adapter.getAllItemCount()));
     }
 
     private void updateStudentsList(int groupId) {
