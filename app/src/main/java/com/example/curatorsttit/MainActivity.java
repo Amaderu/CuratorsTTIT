@@ -46,15 +46,8 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
-    ActionBar actionBar;
-    Toolbar toolbar;
-    ViewPager viewPager;
-    LinearLayout dots;
-    OnSlideAdapter slideAdapter;
     Fragment toFragment;
 
-    SearchView editsearch;
-    StudentListViewAdapter adapter;
     public static int CURRENT_FRAGMENT;
     public static int LAST_FRAGMENT;
     private SharedPreferences prefs;

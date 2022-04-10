@@ -146,7 +146,7 @@ public class DocumentsFragment extends Fragment {
     }
 
     private void initToolbar(){
-        binding.toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar, null));
+        binding.toolbar.addView(getLayoutInflater().inflate(R.layout.toolbar_doc, null));
         binding.toolbar.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {

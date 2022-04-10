@@ -29,13 +29,6 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-
-    /**
-     * If network connectivity is available, will return true
-     *
-     * @param context the current context
-     * @return boolean true if a network connection is available
-     */
     public boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -64,7 +57,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO не забыть создать базовую активность
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if (!isNetworkAvailable(this)) {
             builder.setTitle("Ошибка").setMessage("отсутствует интернет").setPositiveButton("Ок", null).create().show();

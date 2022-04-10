@@ -115,6 +115,7 @@ public class StudentInfoFragment extends Fragment {
                     menu.findItem(R.id.cancel).setVisible(false);
                     menu.findItem(R.id.done).setVisible(false);
                     canEdit(false);
+                    clearEdit();
                     return onOptionsItemSelected(menuItem);
                 });
 
@@ -144,6 +145,10 @@ public class StudentInfoFragment extends Fragment {
         completeFields(DataGenerator.mockGetStudent(person));
         canEdit(false);
     }
+    void clearEdit(){
+        getView().clearFocus();
+        completeFields(DataGenerator.mockGetStudent(person));
+    };
     void completeFields(StudentData studentData){
         binding2.commonLay.studentSNP.setText(studentData.getPerson().getSNP());
         binding2.commonLay.studentBirth.setText(studentData.getBirthday().toString());

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,12 +34,6 @@ import java.util.Random;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LoginFragment extends Fragment {
     FragmentLoginBinding binding;
     AlertDialog.Builder builder;
@@ -96,6 +91,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 awaitlog();
+                getUser(login, password);
             }
         });
         return binding.getRoot();
@@ -133,38 +129,47 @@ public class LoginFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*binding.logIn.setOnClickListener(new View.OnClickListener() {
+        binding.logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),"username").commit();
-                Bundle bundle = new Bundle();
-                bundle.putString(getString(R.string.user_key), "username");
-                bundle.putInt("CURATOR_ID", 123);
-                Fragment toFragment = new MainFragment();
-                toFragment.setArguments(bundle);
-                ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
+                awaitlog();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mockAuth();
+                    }
+                }, 5000l);
+
             }
-        });*/
+        });
 
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
+    void mockAuth(){
+        binding.expandElements.setVisibility(View.VISIBLE);
+        binding.expandElements2.setVisibility(View.GONE);
+        if(!binding.login.getText().toString().equals("curator") &&
+                !binding.login.getText().toString().equals("curator")){
+            reportAuth("Произошла ошибка");
+            return;
+        }
+        (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),"username").commit();
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.user_key), "username");
+        bundle.putInt("CURATOR_ID", 2);
+        Fragment toFragment = new MainFragment();
+        toFragment.setArguments(bundle);
+        ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
     }
 
 
     private void awaitlog() {
         /*InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getActivity()..getWindowToken(), 0);*/
-        String username, password;
-        username = binding.login.getText().toString();
+        login = binding.login.getText().toString();
         password = binding.password.getText().toString();
-        if (!validateFields(username, password)) return;
+        if (!validateFields(login, password)) return;
         binding.expandElements.setVisibility(View.GONE);
         binding.expandElements2.setVisibility(View.VISIBLE);
-        getUser(username, password);
     }
 
     private boolean validateFields(String username, String password) {
@@ -234,6 +239,8 @@ public class LoginFragment extends Fragment {
                 } else {
                     Log.d("Authorize response", "onResponse: запрос был не успешным");
                     reportAuth("Произошла ошибка");
+                    binding.expandElements.setVisibility(View.VISIBLE);
+                    binding.expandElements2.setVisibility(View.GONE);
                 }
             }
 
@@ -248,8 +255,10 @@ public class LoginFragment extends Fragment {
     }
 
     private void reportAuth(String msg) {
-        /*builder.setTitle("tittle").setMessage(msg)
-                .setPositiveButton("Ок", null);*/
-        showToast(msg);
+        builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Ошибка").setMessage(msg)
+                .setPositiveButton("Ок", null);
+        builder.show();
+        //showToast(msg);
     }
 }

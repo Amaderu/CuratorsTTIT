@@ -11,11 +11,13 @@
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/button_border.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/edit_selector.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_arrow_back.xml" value="0.2095" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_baseline_delete_forever_24.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_baseline_open_in_new_24.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_clear.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_documents.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2095" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_plans.xml" value="0.209" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/ic_progress.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/outline_picture_as_pdf_24.xml" value="0.2095" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/drawable/oval.xml" value="0.2095" />
@@ -50,6 +52,7 @@
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/student_list_item.xml" value="0.25" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/toast_layout.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/toolbar.xml" value="0.33" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/toolbar_doc.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/menu/action_bar_delete.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/menu/action_bar_edit.xml" value="0.2015625" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/menu/action_bar_open.xml" value="0.38697916666666665" />
