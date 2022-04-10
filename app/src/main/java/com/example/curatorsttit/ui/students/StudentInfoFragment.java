@@ -1,20 +1,15 @@
-package com.example.curatorsttit.listeners;
+package com.example.curatorsttit.ui.students;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.constraintlayout.widget.Group;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-
 import android.text.InputType;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,41 +17,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.common.DataGenerator;
 import com.example.curatorsttit.common.DateConverter;
-import com.example.curatorsttit.databinding.CommonInfoItemBinding;
-import com.example.curatorsttit.infoView.InfoRecAdapter;
 import com.example.curatorsttit.databinding.FragmentStudentInfoBinding;
 import com.example.curatorsttit.databinding.FragmentStudentInfoTwoBinding;
-import com.example.curatorsttit.models.Addresses;
-import com.example.curatorsttit.models.Passport;
 import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.models.StudentData;
+import com.example.curatorsttit.network.ApiService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StudentInfoFragment extends Fragment {
     private int personID;
     private Toolbar toolbar;
     private Person person;
+    private StudentData studentData;
     FragmentStudentInfoBinding binding;
     FragmentStudentInfoTwoBinding binding2;
     @Override
@@ -94,8 +78,6 @@ public class StudentInfoFragment extends Fragment {
                 }
             }
         });
-        //toolbar.setNavigationOnClickListener(view -> getActivity().onBackPressed());
-
         toolbar.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
@@ -133,22 +115,12 @@ public class StudentInfoFragment extends Fragment {
                 return false;
             }
         });
-        //toolbar.inflateMenu(R.menu.action_bar_edit);
-        //ActionBar bar = getActivity().setActionBar(android.widget.Toolbar);
-        //bar.setCustomView(toolbar);
-        //((MainActivity)getActivity()).setActionBar(toolbar);
-        //toolbar.animate().translationY(-toolbar.getBottom()).setInterpolator(new AccelerateInterpolator()).start();
-        //toolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
-        //ActionBar actionBar = ((MainActivity)getActivity()).getActionBar();
-        //actionBar.
-        //actionBar.setDisplayShowTitleEnabled(false);
-        completeFields(DataGenerator.mockGetStudent(person));
-        canEdit(false);
+        mockLoadStudentInfo(person);
     }
     void clearEdit(){
         getView().clearFocus();
         completeFields(DataGenerator.mockGetStudent(person));
-    };
+    }
     void completeFields(StudentData studentData){
         binding2.commonLay.studentSNP.setText(studentData.getPerson().getSNP());
         binding2.commonLay.studentBirth.setText(studentData.getBirthday().toString());
@@ -176,21 +148,11 @@ public class StudentInfoFragment extends Fragment {
     }
 
 
-    //FixME получаю tru если могу редактировать
+    //true for enable edit
     void canEdit(boolean isEditable){
         getView().clearFocus();
-        RelativeLayout rootLayout = getView().findViewById(R.id.expandable);
-        EditText snp,birth,years;
-        snp = (EditText)rootLayout.findViewById(R.id.studentSNP);
-        birth = (EditText)rootLayout.findViewById(R.id.studentBirth);
-        years = (EditText)rootLayout.findViewById(R.id.studentYears);
         androidx.constraintlayout.widget.Group group = new Group(requireContext());
-        //commonLay
-        /*binding2.commonLay.studentSNP.setEnabled(isEditable);
-        binding2.commonLay.studentBirth.setEnabled(isEditable);
-        binding2.commonLay.studentYears.setEnabled(isEditable);
-        binding2.commonLay.studentEmail.setEnabled(isEditable);
-        binding2.commonLay.studentPhone.setEnabled(isEditable);*/
+
         if(!isEditable){
             binding2.commonLay.studentSNP.setInputType(InputType.TYPE_NULL);
             binding2.commonLay.studentBirth.setInputType(InputType.TYPE_NULL);
@@ -244,7 +206,6 @@ public class StudentInfoFragment extends Fragment {
 
     }
 
-    //TODO функция выччисления возраста
     private int getAge(@NonNull Date birthday)
     {
         GregorianCalendar today = new GregorianCalendar();
@@ -269,22 +230,10 @@ public class StudentInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentStudentInfoBinding.inflate(inflater, container, false);
         binding2 = FragmentStudentInfoTwoBinding.inflate(inflater, container, false);
-        //View view =inflater.inflate(R.layout.fragment_student_info, container, false);
         View view = binding2.getRoot();
-
-        /*int count_of_parents = 2;
-        if(count_of_parents>1){
-            binding2.caretakertLay.expandable4.addView(inflater.inflate(R.layout.careteker_list_item, null));
-            ConstraintLayout constraintLayout = binding2.caretakertLay.getRoot();
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
-            constraintSet.connect(R.id.imageView,ConstraintSet.RIGHT,R.id.caretaker,ConstraintSet.RIGHT,0);
-            constraintSet.connect(R.id.imageView,ConstraintSet.TOP,R.id.caretaker,ConstraintSet.TOP,0);
-            constraintSet.applyTo(constraintLayout);
-        }*/
-        loadStudentInfo(person);
         return view;
     }
+
     View.OnClickListener makeCall(){
         return new View.OnClickListener() {
             @Override
@@ -315,18 +264,63 @@ public class StudentInfoFragment extends Fragment {
         };
     }
 
-    public void show(View view){
-        Toast.makeText(getContext(), "Show more", Toast.LENGTH_SHORT).show();
+    public void showError(String msg){
+        alertDialog(msg).show();
     }
-    //TODO написать загрузку/редактирование данных студента
-    private void loadStudentInfo(int personID){
-        Toast.makeText(requireContext(),String.valueOf(personID), Toast.LENGTH_SHORT);
+    AlertDialog.Builder alertDialog(String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
+        alert.setTitle("Ошибка");
+        alert.setMessage(msg);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                getActivity().onBackPressed();
+            }
+        });
+        return alert;
     }
-    private void loadStudentInfo(Person person){
+
+    private void mockLoadStudentInfo(Person person){
         binding2.commonLay.studentSNP.setText(person.getSNP());
         binding2.commonLay.studentEmail.setText(person.getEmail());
         binding2.commonLay.studentPhone.setText(person.getPhone());
-        Toast.makeText(requireContext(),String.valueOf(person.getId()), Toast.LENGTH_SHORT);
+        completeFields(DataGenerator.mockGetStudent(person));
+        canEdit(false);
+    }
+    private void loadStudentInfo(Person person){
+        if(person == null) {
+            showError(getString(R.string.error));
+            return;
+        }
+        binding2.loading.setVisibility(View.VISIBLE);
+        binding2.commonLay.getRoot().setVisibility(View.GONE);
+        binding2.medLay.getRoot().setVisibility(View.GONE);
+        binding2.passLay.getRoot().setVisibility(View.GONE);
+        binding2.caretakertLay.getRoot().setVisibility(View.GONE);
+        binding2.sickLay.getRoot().setVisibility(View.GONE);
+        ApiService.getInstance().getApi().getStudentDataById(personID).enqueue(new Callback<StudentData>() {
+            @Override
+            public void onResponse(Call<StudentData> call, Response<StudentData> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    studentData =response.body();
+                }
+                else showError(getString(R.string.error));
+            }
+
+            @Override
+            public void onFailure(Call<StudentData> call, Throwable t) {
+                t.printStackTrace();
+                showError(getString(R.string.error));
+            }
+        });
+        if(studentData == null) return;
+        completeFields(studentData);
+        canEdit(false);
+        binding2.loading.setVisibility(View.GONE);
+        binding2.commonLay.getRoot().setVisibility(View.VISIBLE);
+        binding2.medLay.getRoot().setVisibility(View.VISIBLE);
+        binding2.passLay.getRoot().setVisibility(View.VISIBLE);
+        binding2.caretakertLay.getRoot().setVisibility(View.VISIBLE);
+        binding2.sickLay.getRoot().setVisibility(View.VISIBLE);
     }
 
 }

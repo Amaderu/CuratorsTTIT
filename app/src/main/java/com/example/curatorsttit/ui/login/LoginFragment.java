@@ -39,6 +39,7 @@ public class LoginFragment extends Fragment {
     AlertDialog.Builder builder;
     private static final String LOGIN = "LOGIN";
     private static final String PASSWORD = "PASSWORD";
+    private static final String CURATOR_ID = "CURATOR_ID";
 
     private String login;
     private String password;
@@ -72,7 +73,6 @@ public class LoginFragment extends Fragment {
         builder = new AlertDialog.Builder(requireContext());
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(inflater, container, false);
-        //return inflater.inflate(R.layout.fragment_login, container, false);
         randomFraze();
         View.OnKeyListener keyListener = new View.OnKeyListener() {
             @Override
@@ -105,13 +105,13 @@ public class LoginFragment extends Fragment {
         binding.textView2.setText(frazes[index]);
     }
 
-    //TODO доделать до конца
-    private void shprefs() throws GeneralSecurityException, IOException {
+
+    private void putAppDataToPrefs(String username, int curatorId) throws GeneralSecurityException, IOException {
         KeyGenParameterSpec keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC;
         String masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec);
         Context context = requireContext();
         SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
-                "shared_preferences_filename",
+                "app_data",
                 masterKeyAlias,
                 context,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
@@ -120,11 +120,11 @@ public class LoginFragment extends Fragment {
         // storing a value;
         sharedPreferences
                 .edit()
-                .putString("some_key", "some_data")
+                .putString(getString(R.string.user_key), username).putInt(CURATOR_ID, curatorId)
                 .apply();
-        // reading a value
-        sharedPreferences.getString("some_key", "some_default_value");
     }
+
+
 
     @Override
     public void onResume() {
@@ -152,10 +152,16 @@ public class LoginFragment extends Fragment {
             reportAuth("Произошла ошибка");
             return;
         }
-        (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key),"username").commit();
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.user_key), "username");
         bundle.putInt("CURATOR_ID", 2);
+        try {
+            putAppDataToPrefs(binding.login.getText().toString(), 2);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Fragment toFragment = new MainFragment();
         toFragment.setArguments(bundle);
         ((NavigationHost) getActivity()).navigateTo(toFragment, false); // Navigate to the next Fragment
@@ -232,8 +238,15 @@ public class LoginFragment extends Fragment {
                     toFragment.setArguments(bundle);
 
                     ((NavigationHost) getActivity()).navigateTo(toFragment, false);
-                    (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key), username).commit();// Navigate to the next Fragment
-                    (requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putInt("CURATOR_ID", response.body().getId()).commit();// Navigate to the next Fragment
+                    try {
+                        putAppDataToPrefs(binding.login.getText().toString(), 2);
+                    } catch (GeneralSecurityException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //(requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putString(getString(R.string.user_key), username).commit();// Navigate to the next Fragment
+                    //(requireActivity()).getPreferences(Context.MODE_PRIVATE).edit().putInt("CURATOR_ID", response.body().getId()).commit();// Navigate to the next Fragment
                     Toast.makeText(requireContext(), "Вы вошли в систему", Toast.LENGTH_LONG).show();
 
                 } else {

@@ -15,10 +15,12 @@ import java.util.List;
 public class GroupSpinnerAdapter extends ArrayAdapter<Group> {
 
     LayoutInflater inflater;
+    List<Group> list;
 
     public GroupSpinnerAdapter(Activity activity, int resouceId, int textviewId, List<Group> list){
         super(activity,resouceId,textviewId,list);
         inflater = activity.getLayoutInflater();
+        this.list = list;
     }
 
     @Override
@@ -30,6 +32,11 @@ public class GroupSpinnerAdapter extends ArrayAdapter<Group> {
         txtTitle.setText(rowItem.getNumber());
 
         return rowview;
+    }
+
+    public void updateDate(List<Group> list){
+        this.list = list;
+        this.notifyDataSetChanged();
     }
 
 

@@ -1,14 +1,12 @@
 package com.example.curatorsttit;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,42 +14,35 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.security.keystore.KeyGenParameterSpec;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
 
-import com.example.curatorsttit.adapters.OnSlideAdapter;
-import com.example.curatorsttit.adapters.StudentListViewAdapter;
-import com.example.curatorsttit.common.DateConverter;
 import com.example.curatorsttit.databinding.ActivityMainBinding;
-import com.example.curatorsttit.listeners.StudentInfoFragment;
-import com.example.curatorsttit.models.Addresses;
-import com.example.curatorsttit.models.Passport;
-import com.example.curatorsttit.models.Person;
-import com.example.curatorsttit.models.StudentData;
+import com.example.curatorsttit.ui.students.StudentInfoFragment;
 import com.example.curatorsttit.ui.documents.DocumentsFragment;
 import com.example.curatorsttit.ui.login.LoginFragment;
 import com.example.curatorsttit.ui.main.MainFragment;
-import com.google.gson.annotations.SerializedName;
-import com.microsoft.schemas.vml.CTShapetype;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
+    private static final String CURATOR_ID = "CURATOR_ID";
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 41;
     Fragment toFragment;
-
     public static int CURRENT_FRAGMENT;
     public static int LAST_FRAGMENT;
-    private SharedPreferences prefs;
     ActivityMainBinding binding;
+    private SharedPreferences sharedPreferences;
+    private int curatorId;
+    private String username;
+
 
     static{
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
@@ -60,64 +51,30 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         //System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.StreamReaderImpl");
     }
 
-
-    void login() {
-        prefs = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(getString(R.string.user_key), "user");
-        editor.apply();
-    }
-
-    void getUserfromPrefs() {
-        /*prefs = EncryptedSharedPreferences.create(
-                sharedPrefsFile,
-                mainKeyAlias,
-                getApplicationContext(),
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        );*/
-        SharedPreferences.Editor sharedPrefsEditor = prefs.edit();
-        // Edit the user's shared preferences...
-        sharedPrefsEditor.apply();
-
-        String username = prefs.getString(getString(R.string.user_key), null);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-        requestPermissionsIfNecessary(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CALL_PHONE
-        });
-        String username = getPreferences(Context.MODE_PRIVATE).getString(getString(R.string.user_key), null);
-        int userID = getPreferences(Context.MODE_PRIVATE).getInt("CURATOR_ID", -1);
-        if (username != null){
-            Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.user_key),username);
-            bundle.putInt("CURATOR_ID",userID);
-            /*toFragment =  whichFragment(R.id.fragment_main);
-            if(toFragment != null){
-                toFragment.setArguments(bundle);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.mainFrame, toFragment, String.valueOf(R.id.fragment_main))
-                        .commit();
-            }*/
-            toFragment = new MainFragment();
-            toFragment.setArguments(bundle);
-            navigateTo(toFragment, false);
-
-        }
-        else {
-            toFragment = new LoginFragment();
-            navigateTo(toFragment, false);
-        }
     }
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 41;
+
+    private void getAppDataFromPrefs() throws GeneralSecurityException, IOException {
+        KeyGenParameterSpec keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC;
+        String masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec);
+        Context context = getApplicationContext();
+        sharedPreferences = EncryptedSharedPreferences.create(
+                "app_data",
+                masterKeyAlias,
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );
+        // reading a value
+        username = sharedPreferences.getString(getString(R.string.user_key), "");
+        curatorId = sharedPreferences.getInt(CURATOR_ID, -1);
+        if(curatorId != -1 && !username.isEmpty())
+            Log.i("LoadData", "getAppDataFromPrefs: successes");
+    }
     private void requestPermissionsIfNecessary(String[] permissions) {
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (String permission : permissions) {
@@ -140,27 +97,33 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     @Override
     protected void onStart() {
         super.onStart();
-        /*if (CURRENT_FRAGMENT == R.id.fragment_login) {
-            return;
-        }*/
-
-        /*try {
-            String filepath = Environment.getExternalStorageDirectory().getPath();
-            File file = new File(filepath + "/Documents/"+getString(R.string.app_name));
-            String folderPath = file.getPath();
-            String filename = "Стипендиальная ведомость";
-            DocumentsCreator.getInstance().createDocumentStep(folderPath+"/"+filename+".xlsx");
-            Toast.makeText(MainActivity.this,"Успешно сгенерирован", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
+        requestPermissionsIfNecessary(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CALL_PHONE
+        });
+        try {
+            getAppDataFromPrefs();
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
-        }*/
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!username.isEmpty() && curatorId != -1){
+            toFragment = new MainFragment();
+            navigateTo(toFragment, false);
+
+        }
+        else {
+            toFragment = new LoginFragment();
+            navigateTo(toFragment, false);
+        }
 
     }
 
 
     public void show(View view) {
         View view2 = view.getRootView();
-        //view2 = view2.findViewById(view.getId());
         RelativeLayout layout = null;
         switch (view.getId()) {
             case R.id.commonInf:
@@ -179,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
                 layout = (RelativeLayout) view2.findViewById(R.id.expandable5);
                 break;
             default: {
-                //TODO доделать для остальных блокоф инфы
             }
             break;
         }
@@ -187,10 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
             TransitionManager.beginDelayedTransition(layout, new AutoTransition());
             layout.setVisibility(layout.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
         }
-        //Toast.makeText(this, "Show more", Toast.LENGTH_SHORT).show();
     }
 
-    // Метод для создания фрагмента по его id
     @SuppressLint("NonConstantResourceId")
     public Fragment whichFragment(int id) {
         //if (binding.mainFrame.getTag().equals(CURRENT_FRAGMENT)) return null;

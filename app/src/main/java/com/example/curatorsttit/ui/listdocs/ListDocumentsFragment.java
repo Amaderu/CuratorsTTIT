@@ -5,63 +5,35 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-
 import android.os.Environment;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.databinding.FragmentListDocumentsBinding;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListDocumentsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ListDocumentsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters to group
     private String mParam1;
     private String mParam2;
-
-    public ListDocumentsFragment() {
-        // Required empty public constructor
-    }
     FragmentListDocumentsBinding binding;
     List<String> items = new ArrayList<>();
     String folderPath;
 
-    public static ListDocumentsFragment newInstance(String param1, String param2) {
-        ListDocumentsFragment fragment = new ListDocumentsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public ListDocumentsFragment() {
+
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +77,7 @@ public class ListDocumentsFragment extends Fragment {
             }
         });*/
     }
-    //TODO ищет все отчёты в папке
+    //search all reports in folder
     private void initList(String path) {
 
         try {
@@ -149,16 +121,7 @@ public class ListDocumentsFragment extends Fragment {
         }
 
     }
-    //метод определения расширения файла
-    private static String getFileExtension(File file) {
-        String fileName = file.getName();
-        // если в имени файла есть точка и она не является первым символом в названии файла
-        if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
-            // то вырезаем все знаки после последней точки в названии файла, то есть ХХХХХ.txt -> txt
-            return fileName.substring(fileName.lastIndexOf(".")+1);
-            // в противном случае возвращаем заглушку, то есть расширение не найдено
-        else return "";
-    }
+
     public String getMimeType(Uri uri) {
         String mimeType = null;
         if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {

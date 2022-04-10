@@ -1,17 +1,17 @@
 package com.example.curatorsttit.ui.documents;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RawRes;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
-
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
 import android.os.Environment;
+import android.security.keystore.KeyGenParameterSpec;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,10 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.curatorsttit.MainActivity;
 import com.example.curatorsttit.R;
 import com.example.curatorsttit.adapters.GroupSpinnerAdapter;
@@ -31,28 +29,20 @@ import com.example.curatorsttit.common.DocumentsCreator;
 import com.example.curatorsttit.databinding.FragmentDocumetsBinding;
 import com.example.curatorsttit.models.Group;
 import com.example.curatorsttit.models.Person;
+import com.example.curatorsttit.network.ApiService;
 import com.example.curatorsttit.ui.listdocs.ListDocumentsFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
-
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DocumentsFragment extends Fragment {
     private String folderPath;
@@ -60,15 +50,32 @@ public class DocumentsFragment extends Fragment {
 
     private static final String STUDENT_LIST = "student_list";
     private static final String GROUP_LIST = "group_list";
+    private static final String CURATOR_ID = "CURATOR_ID";
 
-
+    private int curatorId;
     private List<Group> groupList;
     private List<Person> studentsList;
     public Map<Group,List<Person>> studentsLists;
     Spinner spinner;
+    SharedPreferences sharedPreferences;
 
     public DocumentsFragment() {
         // Required empty public constructor
+    }
+    private void getAppDataFromPrefs() throws GeneralSecurityException, IOException {
+        KeyGenParameterSpec keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC;
+        String masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec);
+        Context context = requireContext();
+        sharedPreferences = EncryptedSharedPreferences.create(
+                "app_data",
+                masterKeyAlias,
+                context,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );
+        curatorId = sharedPreferences.getInt(CURATOR_ID, -1);
+        if(curatorId != -1)
+            Log.i("LoadData", "getAppDataFromPrefs: successes");
     }
 
 
@@ -91,6 +98,13 @@ public class DocumentsFragment extends Fragment {
             groupList = gson.fromJson( getArguments().getString(GROUP_LIST),new TypeToken<List<Group>>(){}.getType());
         }
         createDirectoryAndSaveFile();
+        try {
+            getAppDataFromPrefs();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -98,15 +112,6 @@ public class DocumentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentDocumetsBinding.inflate(inflater, container, false);
-
-        /*
-        <string name="scholarship_statement_doc">Стипендиальная ведомость</string>
-    <string name="svod_info_group_doc">Сводная информация по группе</string>
-    <string name="curator_report_doc">Отчет куратора за семестр</string>
-    <string name="month_report_doc">Ежемесячный отчет по воспитательной работе в группе</string>
-    <string name="month_plan_doc">Ежемесячный план воспитательной работы в группе</string>
-    <string name="year_plan_doc">Календарный план куратора на год</string>
-         */
         binding.document.setOnClickListener(view -> {
             generateStepDoc("");
         });
@@ -128,21 +133,85 @@ public class DocumentsFragment extends Fragment {
         return binding.getRoot();
     }
     private void initSpinner() {
-        getGroups();
         GroupSpinnerAdapter spinnerArrayAdapter = new GroupSpinnerAdapter(getActivity(), android.R.layout.simple_spinner_item,android.R.id.text1, groupList);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerArrayAdapter);
     }
-    private void getGroups(){
+    private void mockGetGroups(){
         groupList = DataGenerator.mockGenerateGroup();
+        initSpinner();
     }
-    private void getLists(){
+    private void mockGetLists(){
         studentsLists = new HashMap<>();
         for (Group g :
                 groupList) {
             studentsLists.put(g,DataGenerator.mockGenerateStudents(g));
         }
 
+    }
+
+    private void showError(String msg){
+        alertDialog(msg).show();
+    }
+    android.app.AlertDialog.Builder alertDialog(String msg) {
+        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(requireContext());
+        alert.setTitle("Ошибка");
+        alert.setMessage(msg);
+        alert.setPositiveButton("Ok", null);
+        return alert;
+    }
+
+    private void getGroups(int curator_id) {
+        final String ErrorMsg = getString(R.string.error);
+        ApiService.getInstance().getApi().getGroupsByCuratorId(curator_id).enqueue(new Callback<List<Group>>() {
+            @Override
+            public void onResponse(Call<List<Group>> call, Response<List<Group>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    groupList = response.body();
+                    initSpinner();
+                }
+                else {
+                    showError(ErrorMsg);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Group>> call, Throwable t) {
+                t.printStackTrace();
+                showError(ErrorMsg);
+            }
+        });
+    }
+
+    private void getLists(){
+        studentsLists = new HashMap<>();
+        for (Group g :
+                groupList) {
+            studentsLists.put(g,getStudentList(g.getId()));
+        }
+
+    }
+
+    private List<Person> getStudentList(int groupId) {
+        ApiService.getInstance().getApi().getStudentsByGroup(groupId).enqueue(new Callback<List<Person>>() {
+            @Override
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    studentsList = response.body();
+                } else {
+                    Group groupName = groupList.stream().filter(group -> group.getId()==groupId).findFirst().get();
+                    showError(getString(R.string.error)+" Данных группы "+groupName.getNumber());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Person>> call, Throwable t) {
+                t.printStackTrace();
+                Group groupName = groupList.stream().filter(group -> group.getId()==groupId).findFirst().get();
+                showError(getString(R.string.error)+" Данных группы "+groupName.getNumber());
+            }
+        });
+        return studentsList;
     }
 
     private void initToolbar(){
@@ -240,54 +309,16 @@ public class DocumentsFragment extends Fragment {
         }
     }
 
-
-
-    AlertDialog.Builder customdialog() {
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
-
-        alert.setTitle("Title");
-        alert.setMessage("Message");
-
-        // Set an EditText view to get user input
-        final EditText input = new EditText(requireContext());
-        alert.setView(input);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String value = input.getText().toString();
-                // Do something with value!
-                Toast.makeText(requireContext(), "Начинается генерация документа", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                // Canceled.
-            }
-        });
-        return alert;
-    }
-    //FixMe не работает
-    private void Sharing(View v) {
+    private void shareFileWithApps(View v) {
         String filename = "Стипендиальная ведомость";
         Intent intent = new Intent(Intent.ACTION_SEND);
-        //intent.setData(Uri.parse("file:"+folderPath+"/"+filename+".xlsx"));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         File reportFile = new File(folderPath + "/" + filename + ".xlsx");
         intent.setDataAndType(Uri.fromFile(reportFile), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-// Always use string resources for UI text.
-// This says something like "Share this photo with"
-// Create intent to show chooser
         Intent chooser = Intent.createChooser(intent, "Поделиться файлом");
-
-// Verify the intent will resolve to at least one activity
         if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
             startActivity(chooser);
         }
-        Uri.parse("content://contacts/people/1");
-
     }
 
     /* Checks if external storage is available for read and write */
@@ -327,8 +358,6 @@ public class DocumentsFragment extends Fragment {
         } else Log.d(TAG, "exists");
         folderPath = file.getPath();
         Log.d(TAG, folderPath);
-        //file.getAbsolutePath() + "/" + System.currentTimeMillis() + ".jpg";
-
     }
 
     @Override
@@ -336,8 +365,13 @@ public class DocumentsFragment extends Fragment {
         super.onStart();
         initToolbar();
         spinner = (Spinner)binding.toolbar.findViewById(R.id.spinner_groups);
-        initSpinner();
-        getLists();
+        //FIXME
+        //getGroups(curatorId);
+        mockGetGroups();
+        if(groupList == null || groupList.isEmpty()) return;
+        //Fixme
+        //getLists();
+        mockGetLists();
     }
 
 }

@@ -25,8 +25,6 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        //if(getArguments()!=null)
-
     }
 
     public boolean isNetworkAvailable(Context context) {
@@ -39,10 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // get network info for all of the data interfaces (e.g. WiFi, 3G, LTE, etc.)
         NetworkInfo[] info = connectivity.getAllNetworkInfo();
-
-        // make sure that there is at least one interface to test against
         if (info != null) {
-            // iterate through the interfaces
             for (int i = 0; i < info.length; i++) {
                 // check this interface for a connected state
                 if (info[i].getState() == NetworkInfo.State.CONNECTED) {

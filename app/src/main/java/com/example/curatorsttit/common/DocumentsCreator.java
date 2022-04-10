@@ -3,11 +3,7 @@ package com.example.curatorsttit.common;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
-
-import androidx.annotation.RawRes;
-
 import com.example.curatorsttit.models.Person;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.BorderExtent;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -27,13 +23,11 @@ import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFFactory;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,12 +37,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -197,7 +187,6 @@ public class DocumentsCreator {
         sheet.setAutobreaks(true);
         //Установка области печати
         wb.setPrintArea(0, "$A$1:$X$36");
-        //TODO рассмотреть вариацию колонтитулов
         CellStyle style = createDefaultCellStyle(wb);
         for (int i = 32; i < 36; i++) {
             Row r = sheet.createRow(i);
@@ -247,8 +236,6 @@ public class DocumentsCreator {
             sheet.getRow(i).createCell(1);
             sheet.getRow(i).getCell(1).setCellStyle(style);
         }
-        //TODO объединение ячеек для таблицы и все границы
-        //29Rx24C
         //Внешние гранницы
         PropertyTemplate pt = new PropertyTemplate();
         // #1) these borders will all be medium in default color

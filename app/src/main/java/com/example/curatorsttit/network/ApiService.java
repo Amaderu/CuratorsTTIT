@@ -3,9 +3,6 @@ package com.example.curatorsttit.network;
 import com.example.curatorsttit.common.DateConverter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import java.lang.reflect.Array;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
