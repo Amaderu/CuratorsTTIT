@@ -38,6 +38,112 @@
             android:visibility="gone"
             tools:visibility="visible"
             >
+
+            <TextView
+                android:id="@+id/pasportSeria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="10dp"
+                android:text="Серия" />
+
+            <EditText
+                android:id="@+id/studentPassportSeria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/pasportSeria"
+
+                android:hint="9999"
+                android:inputType="numberDecimal"
+                android:maxLength="4" />
+
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_toEndOf="@id/studentPassportSeria"
+                android:paddingVertical="10dp"
+                android:text="Номер" />
+
+            <EditText
+                android:id="@+id/studentPassportNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/number"
+
+                android:hint="999999"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/tvSubdivisionCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_toEndOf="@id/studentPassportNumber"
+                android:paddingVertical="10dp"
+                android:text="Код" />
+
+            <EditText
+                android:id="@+id/subdivisionCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tvSubdivisionCode"
+
+                android:hint="999-999"
+                android:inputType="numberDecimal|textAutoComplete" />
+
+            <TextView
+                android:id="@+id/tvIssuingAuthority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentPassportSeria"
+                android:paddingVertical="10dp"
+                android:text="Выдан:" />
+
+            <EditText
+                android:id="@+id/IssuingAuthority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentPassportSeria"
+                android:layout_toEndOf="@id/tvIssuingAuthority"
+
+                android:hint="Кем выдан:"
+                android:inputType="textAutoCorrect" />
+
+            <TextView
+                android:id="@+id/tvIssueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IssuingAuthority"
+                android:paddingVertical="10dp"
+                android:text="Дата выдачи:" />
+
+            <EditText
+                android:id="@+id/IssueDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IssuingAuthority"
+                android:layout_toEndOf="@id/tvIssueDate"
+
+                android:hint="Когда выдан:"
+                android:inputType="textAutoCorrect" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IssueDate"
+                android:paddingVertical="10dp"
+                android:text="Адрес регистрации" />
+
+            <EditText
+                android:id="@+id/Address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvAddress"
+                android:hint="Адресс регистрации"
+                android:paddingHorizontal="20dp"
+                android:inputType="textAutoCorrect|textMultiLine" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 

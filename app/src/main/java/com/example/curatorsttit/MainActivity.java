@@ -1,6 +1,7 @@
 package com.example.curatorsttit;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         System.setProperty("org.apache.poi.javax.xml.stream.XMLInputFactory", "com.fasterxml.aalto.stax.InputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLOutputFactory", "com.fasterxml.aalto.stax.OutputFactoryImpl");
         System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.EventFactoryImpl");
-        //System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.StreamReaderImpl");
+        System.setProperty("org.apache.poi.javax.xml.stream.XMLEventFactory", "com.fasterxml.aalto.stax.StreamReaderImpl");
     }
 
     @Override
@@ -156,9 +157,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         //if (binding.mainFrame.getTag().equals(CURRENT_FRAGMENT)) return null;
         switch (id) {
             //TODO Доделать правильный навигационный переход
-            case R.id.fragment_student_info:
-                CURRENT_FRAGMENT = R.id.fragment_student_info;
-                return new StudentInfoFragment();
+//            case R.id.fragment_student_info:
+//                CURRENT_FRAGMENT = R.id.fragment_student_info;
+//                return new StudentInfoFragment();
             case R.id.nav_list:
                 CURRENT_FRAGMENT = R.id.fragment_student_list;
                 return new StudentListFragment();

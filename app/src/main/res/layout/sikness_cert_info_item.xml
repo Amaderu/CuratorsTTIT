@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <androidx.cardview.widget.CardView
         android:id="@+id/card5"
         android:layout_width="match_parent"
@@ -35,9 +36,56 @@
             android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:visibility="gone"
+            tools:visibility="visible"
             >
+            <EditText
+                android:id="@+id/sDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/sDate"
+                android:hint="дата заболевания"
+                android:inputType="date"/>
 
+            <EditText
+                android:id="@+id/eDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:hint="дата выздоровления"
+                android:inputType="date" />
+
+            <Button
+                android:id="@+id/addScan"
+                android:layout_width="150dp"
+                android:layout_height="56dp"
+                android:layout_below="@id/sDate"
+                android:ellipsize="end"
+                android:textSize="11sp"
+                android:singleLine="true"
+                android:lines="2"
+                android:text="выбрать скан" />
+
+            <Button
+                android:id="@+id/addMiss"
+                android:layout_width="150dp"
+                android:textSize="11sp"
+                android:layout_height="56dp"
+                android:layout_below="@id/sDate"
+                android:ellipsize="end"
+                android:lines="2"
+                android:layout_alignParentRight="true"
+                android:text="добавить справку" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerMisses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addMiss"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
         </RelativeLayout>
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

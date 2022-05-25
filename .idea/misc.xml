@@ -36,7 +36,7 @@
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/default_list_view_rec.xml" value="0.358695652173913" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_documets.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_list_documents.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_login.xml" value="0.33" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_login.xml" value="0.2" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_main.xml" value="0.16893115942028986" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_second.xml" value="0.16893115942028986" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_student_info.xml" value="0.25" />
@@ -44,7 +44,9 @@
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/fragment_student_list.xml" value="0.25" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/loading_dialog.xml" value="0.25" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/med_info_item.xml" value="0.33" />
-        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/passport_info_item.xml" value="0.2015625" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/miss_dialog_layout.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/miss_list_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/passport_info_item.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/sign_in.xml" value="0.33" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/sikness_cert.xml" value="0.2015625" />
         <entry key="..\:/Users/Amaderu/StudioProjects/CuratorsTTIT/app/src/main/res/layout/sikness_cert_info_item.xml" value="0.358695652173913" />

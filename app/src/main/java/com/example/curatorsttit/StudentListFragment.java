@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -40,7 +41,9 @@ import com.example.curatorsttit.common.DataGenerator;
 import com.example.curatorsttit.models.Group;
 import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.network.ApiService;
+import com.example.curatorsttit.ui.StudentInfoActivity;
 import com.example.curatorsttit.ui.login.LoginFragment;
+import com.example.curatorsttit.ui.students.StudentInfoFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -375,16 +378,22 @@ public class StudentListFragment extends Fragment {
 
     void navigateToStudentInfo(Person person){
         Log.d("RecyclerView", "onStudentClick: "+person.getSNP());
-        MainActivity m = ((MainActivity)requireActivity());
-        Fragment toFragment = m.whichFragment(R.id.fragment_student_info);
-        Bundle bundle = new Bundle();
-        bundle.putInt("personID", person.getId());
-
+        //MainActivity m = ((MainActivity)requireActivity());
+        //Fragment toFragment = m.whichFragment(R.id.fragment_student_info);
+        //Bundle bundle = new Bundle();
+        //bundle.putInt("personID", person.getId());
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         String personParce = gson.toJson(person);
-        bundle.putString("person", personParce);
-        toFragment.setArguments(bundle);
-        m.loadFragment(toFragment);
+        //bundle.putString("person", personParce);
+        //toFragment.setArguments(bundle);
+        //m.loadFragment(toFragment);
+
+        Intent intent = new Intent(getContext(), StudentInfoActivity.class);
+        intent.putExtra("personID", person.getId());
+        intent.putExtra("person", personParce);
+
+        getContext().startActivity(intent);
+
     }
 }

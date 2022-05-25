@@ -91,4 +91,15 @@ public class Addresses{
 	public String getCity(){
 		return city;
 	}
+
+	public String getAddressAsString(){
+		StringBuilder sb = new StringBuilder();
+		if(postalCode!=null)
+		 	sb.append(postalCode+", ");
+		sb.append("г. "+city+", ");
+		sb.append("ул. "+street+", ");
+		sb.append("дом "+house+", ");
+		sb.append("кв."+flat);
+		return sb.toString();
+	}
 }

@@ -201,9 +201,14 @@ public class DataGenerator {
             passport.setId(1);
             passport.setSeries("1324");
             passport.setNumber("123456");
-            passport.setIssueDate("2016-02-12T00:00:00");
+            try {
+                date = new SimpleDateFormat(DateConverter.DATE_TIME_MS_SQL).parse("2016-02-12T00:00:00");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            passport.setIssueDate(date);
             passport.setIssuingAuthority("УФМС РФ Томск");
-            passport.setSubdivisionCode("12545");
+            passport.setSubdivisionCode("700-000");
             passport.setRegistrationAddressId(1);
 
             StudentData data = new StudentData().setDormitory(true).setiTN("345345").setPassport(passport).setMedPolicy("123123123")

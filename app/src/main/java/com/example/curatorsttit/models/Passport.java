@@ -2,6 +2,8 @@ package com.example.curatorsttit.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Passport{
 
 	@SerializedName("Series")
@@ -15,7 +17,7 @@ public class Passport{
 	private String number;
 
 	@SerializedName("IssueDate")
-	private String issueDate;
+	private Date issueDate;
 
 	@SerializedName("Id")
 	private int id;
@@ -50,11 +52,11 @@ public class Passport{
 		return number;
 	}
 
-	public void setIssueDate(String issueDate){
+	public void setIssueDate(Date issueDate){
 		this.issueDate = issueDate;
 	}
 
-	public String getIssueDate(){
+	public Date getIssueDate(){
 		return issueDate;
 	}
 

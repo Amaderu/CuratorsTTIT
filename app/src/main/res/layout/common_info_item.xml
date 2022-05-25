@@ -121,6 +121,33 @@
                 android:backgroundTint="@color/transparent"
                 android:hint="+7 999 999 99 99" />
 
+
+
+            <TextView
+                android:id="@+id/tvResAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentPhone"
+                android:paddingVertical="10dp"
+                android:text="Адрес проживания" />
+            <EditText
+                android:id="@+id/ResAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvResAddress"
+                android:hint="Адресс проживания"
+                android:paddingHorizontal="20dp"
+                android:inputType="textAutoCorrect|textMultiLine" />
+
+            <CheckBox
+                android:id="@+id/dormitoryCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/studentPhone"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tvResAddress"
+                android:text="общежитие" />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
