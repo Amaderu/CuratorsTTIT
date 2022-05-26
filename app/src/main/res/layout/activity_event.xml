@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_100"
+    tools:context=".ui.events.EventActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/eventName"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:hint="Название мероприятия"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0"
+        tools:text="Классный час"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/eventDate"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:gravity="center_vertical"
+        android:inputType="date"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tvEventDate"
+
+        app:layout_constraintTop_toTopOf="@+id/tvEventDate"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="10.12.2002"
+        tools:visibility="visible" />
+
+<!--    <EditText-->
+<!--        android:id="@+id/eventStatus"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="?android:attr/listPreferredItemHeightSmall"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+<!--        android:paddingStart="?android:attr/listPreferredItemPaddingStart"-->
+<!--        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"-->
+<!--        android:textAppearance="?android:attr/textAppearanceListItemSmall"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/tvEventStatus"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/eventDate"-->
+<!--        tools:text="Ожидает"-->
+<!--        tools:visibility="visible" />-->
+    <Spinner
+        android:id="@+id/eventStatus"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/tvEventStatus"
+        app:layout_constraintTop_toBottomOf="@+id/eventDate"
+        android:entries="@array/eventStatuses"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvEventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:text="Дата проведения"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tvEventStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:text="Статус мероприятия"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEventDate" />
+
+    <TextView
+        android:id="@+id/tvOrganizer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:text="Организатор"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEventStatus" />
+
+    <EditText
+        android:id="@+id/eventOrganizer"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/tvOrganizer"
+        app:layout_constraintTop_toBottomOf="@+id/eventStatus"
+        tools:text="ОГБПОУ ТТИТ"
+        tools:visibility="visible" />
+    <TextView
+        android:id="@+id/tvCodes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:text="Коды ЛР/НК"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOrganizer" />
+
+    <EditText
+        android:id="@+id/eventCodes"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        android:hint="ЛР2, НК4"
+        app:layout_constraintStart_toEndOf="@+id/tvOrganizer"
+        app:layout_constraintTop_toBottomOf="@+id/eventOrganizer"
+        tools:text="ЛР2, ЛР4, НК4, НК7, НК8, НК9"
+        tools:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:dropDownWidth="150dp"
+        android:entries="@array/educationModules"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventCodes" />
+
+    <!--
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerEducationModules"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@android:layout/simple_list_item_1"
+
+        />-->
+    <ListView
+        android:id="@+id/listViewEducationModules"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@android:drawable/divider_horizontal_textfield"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.0"
+        tools:entries="@array/educationModules"
+        tools:listitem="@android:layout/simple_list_item_1" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Добавить направление"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

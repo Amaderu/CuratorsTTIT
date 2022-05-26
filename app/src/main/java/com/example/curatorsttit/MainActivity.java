@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.example.curatorsttit.databinding.ActivityMainBinding;
+import com.example.curatorsttit.ui.events.ListEventFragment;
 import com.example.curatorsttit.ui.students.StudentInfoFragment;
 import com.example.curatorsttit.ui.documents.DocumentsFragment;
 import com.example.curatorsttit.ui.login.LoginFragment;
@@ -175,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
             case R.id.nav_documents:
                 CURRENT_FRAGMENT = R.id.fragment_documents;
                 return new DocumentsFragment();
+            case R.id.nav_plans:
+                CURRENT_FRAGMENT = R.id.fragment_events;
+                return new ListEventFragment();
             default:
                 CURRENT_FRAGMENT = 0;
                 return null;
@@ -186,7 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         // TODO: 31.03.2022  Сделать нормальный переход
         if (fragment == null) return;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        //transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
         //if(getSupportFragmentManager().findFragmentByTag("StudentInfoFragment") == null)
         transaction.replace(R.id.container, fragment, String.valueOf(CURRENT_FRAGMENT));
