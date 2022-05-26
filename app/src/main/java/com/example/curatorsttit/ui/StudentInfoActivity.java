@@ -74,7 +74,6 @@ public class StudentInfoActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private Person person;
     private StudentData studentData;
-    FragmentStudentInfoBinding binding;
     FragmentStudentInfoTwoBinding binding2;
     SicknessRecViewAdapter sicknessRecViewAdapter;
     RecyclerView sicknessRecView;

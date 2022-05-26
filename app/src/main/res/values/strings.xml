@@ -50,6 +50,35 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="eventStatuses">
+        <item>Не проведено</item>
+        <item>Проведено</item>
+    </string-array>
+
+    <string-array name="educationModules">
+        <!--Наименование направлений воспитания-->
+        <item>Гражданско-патриотическое воспитание</item>
+        <item>Молодежное предпринимательство и профессиональная навигация молодежи</item>
+        <item>Студенческое самоуправление</item>
+        <item>Волонтерская деятельность</item>
+        <item>Развитие творческого потенциала молодежи</item>
+        <item>Экологическое воспитание</item>
+        <item>Спортивное и здоровьесберегающее</item>
+        <item>Социально-профилактическое</item>
+
+        <!--Модули инфраструктурной воспитательной работы-->
+        <item>«Ключевые дела»</item>
+        <item>«Кураторство и поддержка»</item>
+        <item>Органы Студенческого самоуправления</item>
+        <item>«Профессиональный выбор»</item>
+        <item>«Взаимодействие с родителями»</item>
+        <item>«Цифровая среда»</item>
+        <item>«Правовое сознание»</item>
+        <item>Психолого-педагогическое и социально-педагогическое обеспечение</item>
+        <item>Инклюзивное образование</item>
+
+    </string-array>
+
 
     <string name="prompt_login">Логин</string>
     <string name="prompt_password">Пароль</string>
@@ -70,4 +99,5 @@
     <string name="month_plan_doc">Ежемесячный план воспитательной работы в группе</string>
     <string name="year_plan_doc">Календарный план куратора на год</string>
     <string name="error">Произошла ошибка загрузки</string>
+    <string name="addEvent">Добавить мероприятие</string>
 </resources>

@@ -12,7 +12,7 @@ public class DateConverter {
     private static final String MONTH_DAY_FORMAT = "MMM d"; // Oct 26
     public static final String DATE_TIME_MS_SQL = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String DATE_STANDART = "EEE MMM dd";
-    public static final String DATE_MY = "dd.MM,yyyy";
+    public static final String DATE_MY = "dd.MM.yyyy";
 
     private String getFormattedDate(String rawDate) {
         SimpleDateFormat utcFormat = new SimpleDateFormat(TWITTER_RESPONSE_FORMAT, Locale.ROOT);

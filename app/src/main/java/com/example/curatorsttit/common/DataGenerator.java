@@ -3,20 +3,22 @@ package com.example.curatorsttit.common;
 import android.icu.text.Transliterator;
 import android.os.Build;
 
-import com.example.curatorsttit.MainActivity;
-import com.example.curatorsttit.R;
 import com.example.curatorsttit.data.local.entity.PersonEntity;
 import com.example.curatorsttit.data.local.entity.RoleEntity;
 import com.example.curatorsttit.data.local.entity.UserEntity;
 import com.example.curatorsttit.models.Addresses;
+import com.example.curatorsttit.models.events.Event;
 import com.example.curatorsttit.models.Group;
 import com.example.curatorsttit.models.Passport;
 import com.example.curatorsttit.models.Person;
 import com.example.curatorsttit.models.StudentData;
+import com.example.curatorsttit.models.events.EventData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -217,6 +219,74 @@ public class DataGenerator {
                     .setBirthday(date)
                     .setRegistrationAddress(addresses).setResidentialAddress(addresses);
             return data;
+    }
+    static long oneDay = 86400000;
+    public static List<Event> mockGetEvents(){
+        List<Event> listEvent = new ArrayList<Event>();
+        /*
+            «Ключевые дела ПОО»
+            «Кураторство и поддержка»
+            «Профессиональный выбор»
+            «Взаимодействие с родителями»
+            Цифровая среда
+            Культурно-творческое направление
+        */
+        Calendar c = Calendar.getInstance();
+        c.set(2022,10,1);
+        listEvent.add(new Event(1,"Праздничное мероприятие «День знаний»", c.getTime(), "проведено", "ОГБПОУ «ТТИТ»", "нет"));
+        listEvent.add(new Event(2, "Кураторские часы по ознакомлению с Правилами внутреннего распорядка, Уставом техникума, Законом Томской области об административных правонарушениях", new Date(c.getTimeInMillis()+oneDay), "проведено", "ОГБПОУ «ТТИТ»", "нет"));
+        listEvent.add(new Event(3, "Собрание в общежитии по ознакомлению студентов с Правилами проживания в общежитии", new Date(c.getTimeInMillis()+oneDay*2), "проведено", "ОГБПОУ «ТТИТ»", "нет"));
+        return listEvent;
+
+    }
+    //полный
+    public static List<EventData> mockGetEventData(){
+        List<EventData> listEvent = new ArrayList<EventData>();
+        /*
+            «Ключевые дела ПОО»
+            «Кураторство и поддержка»
+            «Профессиональный выбор»
+            «Взаимодействие с родителями»
+            Цифровая среда
+            Культурно-творческое направление
+        */
+        Calendar c = Calendar.getInstance();
+        c.set(2022,10,1);
+        EventData data;
+        List<String> codes = Arrays.asList("ЛР2","ЛР 4","НК4","НК7","НК8","НК9");
+        List<String> modules = Arrays.asList(
+            "«Ключевые дела ПОО»",
+            "«Кураторство и поддержка»",
+            "«Профессиональный выбор»",
+            "«Взаимодействие с родителями»",
+            "Цифровая среда",
+            "Культурно-творческое направление"
+        );
+        data = new EventData(1, 1, "Праздничное мероприятие «День знаний»", c.getTime(), "Проведено", "ОГБПОУ «ТТИТ»", "нет");
+        data.setCodes(codes);
+        data.setModules(modules);
+
+        listEvent.add(data);
+
+        data =new EventData(2, 1,
+                "Кураторские часы по ознакомлению с Правилами внутреннего распорядка, Уставом техникума, Законом Томской области об административных правонарушениях",
+                new Date(c.getTimeInMillis()+oneDay),
+                "Проведено",
+                "ОГБПОУ «ТТИТ»", "нет");
+        codes = Arrays.asList("ЛР2","ЛР3","НК5","НК1");
+        modules = Arrays.asList(
+                "«Ключевые дела ПОО»",
+                "«Кураторство и поддержка»",
+                "«Правовое сознание»",
+                "Социально-профилактическое направление",
+               "Взаимодействие с родителями"
+        );
+        data.setCodes(codes);
+        data.setModules(modules);
+        listEvent.add(data);
+        listEvent.add(new EventData(3, 1, "Собрание в общежитии по ознакомлению студентов с Правилами проживания в общежитии", new Date(c.getTimeInMillis()+oneDay*2), "Проведено", "ОГБПОУ «ТТИТ»", "нет"));
+        return listEvent;
+
     }
     
     

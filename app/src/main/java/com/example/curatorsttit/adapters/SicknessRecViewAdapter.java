@@ -62,7 +62,7 @@ public class SicknessRecViewAdapter extends RecyclerView.Adapter<SicknessRecView
     public void onBindViewHolder(SicknessViewHolder holder, int position) {
         //Аналог
         // holder.group.setText(studentsList.get(position).getFIO());
-        Log.d("StudentsRecViewAdapter -> ", "onBindViewHolder: " + position);
+        Log.d("SicknessRecViewAdapter -> ", "onBindViewHolder: " + position);
         holder.bind(missesList.get(position));
     }
 
